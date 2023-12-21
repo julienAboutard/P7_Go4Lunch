@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Go4Lunch</string>
+    <string name="logo_content_description">Application Logo</string>
+    <string name="slogan">Find a nice restaurant and invite your co-workers for lunch</string>
+    <string name="login_title_card">Welcome</string>
+    <string name="login_information_card">Please login with your information</string>
+    <string name="login">Login</string>
+    <string name="new_user_message">New user? Sign Up here</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="other_methods">Use other Methods</string>
 </resources>
