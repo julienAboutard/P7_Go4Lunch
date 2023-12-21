@@ -16,4 +16,11 @@
     </style>
 
     <style name="Theme.Go4Lunch" parent="Base.Theme.Go4Lunch" />
+    <style name="Theme.Go4Lunch.Dispatcher" parent="Theme.Go4Lunch" >
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 </resources>
