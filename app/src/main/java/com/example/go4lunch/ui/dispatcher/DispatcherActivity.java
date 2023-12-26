@@ -36,9 +36,11 @@ public class DispatcherActivity extends AppCompatActivity {
                 switch (destination) {
                     case HOME:
                         startActivity(HomeActivity.navigate(DispatcherActivity.this));
+                        finish();
                         break;
                     case LOGIN:
                         startActivity(LoginActivity.navigate(DispatcherActivity.this));
+                        finish();
                         break;
                 }
             }

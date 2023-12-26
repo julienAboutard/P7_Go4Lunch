@@ -25,6 +25,7 @@ import com.example.go4lunch.R;
 import com.example.go4lunch.databinding.LoginActivityBinding;
 import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
 import com.example.go4lunch.ui.home.HomeActivity;
+import com.example.go4lunch.ui.signup.SignupActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -36,6 +37,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.OAuthProvider;
+
+import java.util.Collections;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -44,13 +48,56 @@ public class LoginActivity extends AppCompatActivity {
 
     GoogleSignInClient googleSignInClient;
 
+    FirebaseAuth firebaseAuth;
+
     public static Intent navigate(Context context) {
         return new Intent(context, LoginActivity.class);
     }
 
+   /* ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // There are no request codes
+                    Intent data = result.getData();
+                    Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    if (signInAccountTask.isSuccessful()) {
+                        Log.i("Test", "test1");
+                        try {
+                            GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
+                            Log.i("Test", "test2");
+                            if (googleSignInAccount != null) {
+
+                                AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
+                                // Check credential
+                                FirebaseAuth.getInstance().signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            //viewModel.onLoginComplete();
+                                            startActivity(DispatcherActivity.navigate(LoginActivity.this));
+                                            Log.i(TAG, "Firebase auth google successful");
+                                        } else {
+                                            Log.e("Firebase auth error: ", task.getException().getMessage());
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (ApiException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });*/
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         LoginActivityBinding viewBinding = LoginActivityBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
@@ -100,53 +147,105 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             startActivity(DispatcherActivity.navigate(LoginActivity.this));
+                            finish();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login Failed"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
 
+        viewBinding.newUserMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(SignupActivity.navigate(LoginActivity.this));
+            }
+        });
         signInGoogle(viewBinding);
 
-        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
-                        if (signInAccountTask.isSuccessful()) {
-                            try {
-                                GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
-                                if (googleSignInAccount != null) {
+        // GITHUB SIGN IN
+        viewBinding.githubFloatBtn.setOnClickListener(v -> {
+                OAuthProvider.Builder provider = OAuthProvider
+                    .newBuilder("github.com")
+                    .setScopes(Collections.singletonList(("user:email")
+                        )
+                    );
 
-                                    AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
-                                    // Check credential
-                                    firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if (task.isSuccessful()) {
-                                                //viewModel.onLoginComplete();
-                                                startActivity(DispatcherActivity.navigate(LoginActivity.this));
-                                                Log.i(TAG, "Firebase auth google successful");
-                                            } else {
-                                                Log.e("Firebase auth error: ", task.getException().getMessage());
-                                            }
-                                        }
-                                    });
-                                }
-                            } catch (ApiException e) {
-                                e.printStackTrace();
+                Task<AuthResult> pendingResultTask = firebaseAuth.getPendingAuthResult();
+                if (pendingResultTask != null) {
+                    // There's something already here! Finish the sign-in for your user.
+                    pendingResultTask
+                        .addOnSuccessListener(
+                            authResult -> {
+                                //viewModel.onLoginComplete();
+                                startActivity(DispatcherActivity.navigate(this));
                             }
-                        }
-                    }
-                }
-            });
+                        )
+                        .addOnFailureListener(
+                            e -> {
+                                Toast.makeText(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onFailure of pendingResultTask: " + e.getMessage());
+                            }
+                        );
+                } else {
+                    firebaseAuth
+                        .startActivityForSignInWithProvider(this, provider.build())
+                        .addOnSuccessListener(
+                            authResult -> {
+                                {
+                                    if (authResult.getAdditionalUserInfo() != null && authResult.getAdditionalUserInfo().getProfile() != null && authResult.getAdditionalUserInfo().getProfile().get("email") != null) {
+                                        Log.d(TAG, "EMILIE " + authResult.getAdditionalUserInfo().getProfile().get("email"));
+                                    }
 
+                                    //viewModel.onLoginComplete();
+                                    startActivity(DispatcherActivity.navigate(this));
+                                }
+                            }
+                        )
+                        .addOnFailureListener(
+                            e -> {
+                                Toast.makeText(LoginActivity.this, "Something went wrong!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onFailure of startActivityForSignInWithProvider: " + e.getMessage());
+                            }
+                        );
+                }
+            }
+        );
+    }
+
+    @Override
+    protected void onActivityResult(
+        int requestCode,
+        int resultCode,
+        @Nullable Intent data
+    ) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+            if (signInAccountTask.isSuccessful()) {
+                try {
+                    GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
+                    if (googleSignInAccount != null) {
+
+                        AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
+                        // Check credential
+                        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, task -> {
+                                if (task.isSuccessful()) {
+                                    //viewModel.onLoginComplete();
+                                    startActivity(DispatcherActivity.navigate(LoginActivity.this));
+                                    Log.i(TAG, "Firebase auth successful");
+                                } else {
+                                    Log.e("Firebase auth error: ", task.getException().getMessage());
+                                }
+                            }
+                        );
+                    }
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void signInGoogle(LoginActivityBinding binding) {
@@ -160,8 +259,8 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.googleFloatBtn.setOnClickListener(v -> {
                 Intent intent = googleSignInClient.getSignInIntent();
-                //startActivityForResult(intent, 100);
-                someActivityResultLauncher.launch(intent);
+                startActivityForResult(intent, 100);
+                //someActivityResultLauncher.launch(intent);
             }
         );
     }

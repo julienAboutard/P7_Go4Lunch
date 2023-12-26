@@ -25,8 +25,13 @@ public class FirebaseAuthRepository implements AuthRepository {
     }
 
     @Override
-    public Task<AuthResult> login(String mail, String password) {
+    public Task<AuthResult> logIn(String mail, String password) {
         return firebaseAuth.signInWithEmailAndPassword(mail, password);
+    }
+
+    @Override
+    public Task<AuthResult> signUp(String mail, String password) {
+        return firebaseAuth.createUserWithEmailAndPassword(mail, password);
     }
 
     @Override

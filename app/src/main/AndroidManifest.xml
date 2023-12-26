@@ -36,6 +36,9 @@
             android:name=".ui.home.HomeActivity"
             android:exported="true"
             />
+        <activity android:name=".ui.signup.SignupActivity"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

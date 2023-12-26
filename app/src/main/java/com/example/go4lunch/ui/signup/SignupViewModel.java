@@ -1,4 +1,4 @@
-package com.example.go4lunch.ui.login;
+package com.example.go4lunch.ui.signup;
 
 import androidx.lifecycle.ViewModel;
 
@@ -13,38 +13,38 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class LoginViewModel extends ViewModel {
+public class SignupViewModel extends ViewModel {
 
-    private final  FirebaseAuthRepository firebaseAuthRepository;
-    private String loginMail;
-    private String loginPassword;
+    private final FirebaseAuthRepository firebaseAuthRepository;
+
+    private String signupMail;
+
+    private String signupPassword;
+
     private final SingleLiveEvent<Integer> displayToastSingleLiveEvent = new SingleLiveEvent<>();
 
+
     @Inject
-    public LoginViewModel(
-        FirebaseAuthRepository firebaseAuthRepository
-    ) {
+    public SignupViewModel(FirebaseAuthRepository firebaseAuthRepository) {
         this.firebaseAuthRepository = firebaseAuthRepository;
     }
 
     public void onMailChanged(String mail) {
-        loginMail = mail;
+        signupMail = mail;
     }
 
-    public void onPasswordChanged(String password) {
-        loginPassword = password;
-    }
+    public void onPasswordChanged(String password) { signupPassword = password; }
 
     public SingleLiveEvent<Integer> getDisplayToastSingleLiveEvent() {
         return displayToastSingleLiveEvent;
     }
 
-    public Task<AuthResult> onLoginButton() {
-        if (loginMail == null || loginPassword == null) {
+    public Task<AuthResult> onSignupButton() {
+        if (signupMail == null || signupPassword == null) {
             displayToastSingleLiveEvent.setValue(R.string.login_error_message);
             return null;
         } else {
-            return firebaseAuthRepository.logIn(loginMail, loginPassword);
+            return firebaseAuthRepository.signUp(signupMail, signupPassword);
         }
     }
 }

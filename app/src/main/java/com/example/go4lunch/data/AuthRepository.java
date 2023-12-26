@@ -11,7 +11,9 @@ public interface AuthRepository {
     @Nullable
     FirebaseUser getCurrentUser();
 
-    Task<AuthResult> login(String mail, String password);
+    Task<AuthResult> logIn(String mail, String password);
+
+    Task<AuthResult> signUp(String mail, String password);
 
     void logOut();
 }
