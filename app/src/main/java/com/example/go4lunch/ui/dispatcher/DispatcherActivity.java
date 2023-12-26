@@ -1,5 +1,6 @@
 package com.example.go4lunch.ui.dispatcher;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -18,6 +19,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class DispatcherActivity extends AppCompatActivity {
+
+    public static Intent navigate(Context context) {
+        return new Intent(context, DispatcherActivity.class);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

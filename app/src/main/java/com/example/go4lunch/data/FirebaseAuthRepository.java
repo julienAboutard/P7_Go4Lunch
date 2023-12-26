@@ -1,5 +1,7 @@
 package com.example.go4lunch.data;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,7 +25,13 @@ public class FirebaseAuthRepository implements AuthRepository {
     }
 
     @Override
+    public Task<AuthResult> login(String mail, String password) {
+        return firebaseAuth.signInWithEmailAndPassword(mail, password);
+    }
+
+    @Override
     public void logOut() {
         firebaseAuth.signOut();
     }
+
 }
