@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/bottom_bar_map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:icon="@drawable/map_24"
+        app:showAsAction="ifRoom"
         android:title="Item" />
     <item
         android:id="@+id/bottom_bar_restaurant_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:icon="@drawable/restaurant_24"
+        app:showAsAction="ifRoom"
         android:title="Item" />
     <item
         android:id="@+id/bottom_bar_workmate_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:icon="@drawable/group_24"
+        app:showAsAction="ifRoom"
         android:title="Item" />
     <item
         android:id="@+id/bottom_bar_chat_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:icon="@drawable/chat_24px"
+        app:showAsAction="ifRoom"
         android:title="Item" />
 </menu>

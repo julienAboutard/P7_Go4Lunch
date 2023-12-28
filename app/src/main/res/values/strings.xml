@@ -1,4 +1,9 @@
 <resources>
+
+    <string name="google_client_id" translatable="false">459295234377-fubcot3rmvouf5ju5i6vuui2ocoq8oa0.apps.googleusercontent.com</string>
+
+
+
     <string name="app_name">Go4Lunch</string>
     <string name="logo_content_description">Application Logo</string>
     <string name="slogan">Find a nice restaurant and invite your co-workers for lunch</string>

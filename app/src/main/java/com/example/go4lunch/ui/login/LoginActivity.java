@@ -24,7 +24,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.go4lunch.R;
 import com.example.go4lunch.databinding.LoginActivityBinding;
 import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
-import com.example.go4lunch.ui.home.HomeActivity;
 import com.example.go4lunch.ui.signup.SignupActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -54,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         return new Intent(context, LoginActivity.class);
     }
 
-   /* ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
         new ActivityResultCallback<ActivityResult>() {
             @Override
@@ -65,10 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent data = result.getData();
                     Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
                     if (signInAccountTask.isSuccessful()) {
-                        Log.i("Test", "test1");
                         try {
                             GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
-                            Log.i("Test", "test2");
                             if (googleSignInAccount != null) {
 
                                 AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
@@ -92,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             }
-        });*/
+        });
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -178,8 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                     pendingResultTask
                         .addOnSuccessListener(
                             authResult -> {
-                                //viewModel.onLoginComplete();
-                                startActivity(DispatcherActivity.navigate(this));
+                               startActivity(DispatcherActivity.navigate(this));
                             }
                         )
                         .addOnFailureListener(
@@ -214,40 +210,6 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
-    @Override
-    protected void onActivityResult(
-        int requestCode,
-        int resultCode,
-        @Nullable Intent data
-    ) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100) {
-            Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
-            if (signInAccountTask.isSuccessful()) {
-                try {
-                    GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
-                    if (googleSignInAccount != null) {
-
-                        AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
-                        // Check credential
-                        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, task -> {
-                                if (task.isSuccessful()) {
-                                    //viewModel.onLoginComplete();
-                                    startActivity(DispatcherActivity.navigate(LoginActivity.this));
-                                    Log.i(TAG, "Firebase auth successful");
-                                } else {
-                                    Log.e("Firebase auth error: ", task.getException().getMessage());
-                                }
-                            }
-                        );
-                    }
-                } catch (ApiException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     public void signInGoogle(LoginActivityBinding binding) {
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -259,8 +221,7 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.googleFloatBtn.setOnClickListener(v -> {
                 Intent intent = googleSignInClient.getSignInIntent();
-                startActivityForResult(intent, 100);
-                //someActivityResultLauncher.launch(intent);
+                someActivityResultLauncher.launch(intent);
             }
         );
     }
