@@ -58,22 +58,31 @@ public class LoginActivity extends AppCompatActivity {
         new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-
+                Log.d(TAG, "onActivityResult(1) called with: result = [" + result + "]");
                 if (result.getResultCode() == Activity.RESULT_OK) {
+                    Log.d(TAG, "onActivityResult(2) called with: result = [" + result + "]");
                     // There are no request codes
                     Intent data = result.getData();
                     Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
                     if (signInAccountTask.isSuccessful()) {
+                        Log.d(TAG, "onActivityResult(3) called with: result = [" + result + "]");
                         try {
                             GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
+                            Log.d(TAG, "onActivityResult(4) called with: result = [" + result + "]");
+
                             if (googleSignInAccount != null) {
+                                Log.d(TAG, "onActivityResult(5) called with: result = [" + result + "]");
 
                                 AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
                                 // Check credential
                                 FirebaseAuth.getInstance().signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
+                                        Log.d(TAG, "onActivityResult(6) called with: result = [" + result + "]");
+
                                         if (task.isSuccessful()) {
+                                            Log.d(TAG, "onActivityResult(7) called with: result = [" + result + "]");
+
                                             //viewModel.onLoginComplete();
                                             startActivity(DispatcherActivity.navigate(LoginActivity.this));
                                             Log.i(TAG, "Firebase auth google successful");

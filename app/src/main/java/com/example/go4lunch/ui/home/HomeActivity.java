@@ -1,5 +1,7 @@
 package com.example.go4lunch.ui.home;
 
+import static com.example.go4lunch.ui.home.HomeDisplayScreen.MAP_FRAGMENT;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -82,11 +84,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setFragmentObserver() {
+        viewModel.getHomeDisplayScreenLiveEvent().observe(this, homeDisplayScreenEvent -> {
+            HomeDisplayScreen homeDisplayScreen = homeDisplayScreenEvent.getContentIfNotHandled();
 
-        viewModel.getFragmentListSingleLiveEvent().observe(this, fragmentList -> {
-            switch (fragmentList) {
-                case MAP_FRAGMENT:
-                    changeFragment(MapFragment.newInstance());
+            if (homeDisplayScreen != null) {
+                switch (homeDisplayScreen) {
+                    case MAP_FRAGMENT:
+                        changeFragment(MapFragment.newInstance());
+                        break;
+                }
             }
         });
     }
@@ -100,13 +106,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.bottom_bar_map) {
-                    viewModel.onChangeFragmentView(FragmentList.MAP_FRAGMENT);
+                    viewModel.onChangeFragmentView(MAP_FRAGMENT);
                 } else if (item.getItemId() == R.id.bottom_bar_restaurant_list) {
-                    viewModel.onChangeFragmentView(FragmentList.LIST_FRAGMENT);
+                    viewModel.onChangeFragmentView(HomeDisplayScreen.LIST_FRAGMENT);
                 } else if (item.getItemId() == R.id.bottom_bar_workmate_list) {
-                    viewModel.onChangeFragmentView(FragmentList.WORKMATES_FRAGMENT);
+                    viewModel.onChangeFragmentView(HomeDisplayScreen.WORKMATES_FRAGMENT);
                 } else if (item.getItemId() == R.id.bottom_bar_chat_list) {
-                    viewModel.onChangeFragmentView(FragmentList.CHAT_FRAGMENT);
+                    viewModel.onChangeFragmentView(HomeDisplayScreen.CHAT_FRAGMENT);
                 }
                 return false;
             }

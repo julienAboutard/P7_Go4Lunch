@@ -1,10 +1,12 @@
 package com.example.go4lunch.ui.signup;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.data.FirebaseAuthRepository;
-import com.example.go4lunch.ui.utils.SingleLiveEvent;
+import com.example.go4lunch.ui.utils.Event;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
@@ -21,7 +23,7 @@ public class SignupViewModel extends ViewModel {
 
     private String signupPassword;
 
-    private final SingleLiveEvent<Integer> displayToastSingleLiveEvent = new SingleLiveEvent<>();
+    private final MutableLiveData<Event<Integer>> displayToastSingleLiveEvent = new MutableLiveData<>();
 
 
     @Inject
@@ -35,13 +37,13 @@ public class SignupViewModel extends ViewModel {
 
     public void onPasswordChanged(String password) { signupPassword = password; }
 
-    public SingleLiveEvent<Integer> getDisplayToastSingleLiveEvent() {
+    public LiveData<Event<Integer>> getDisplayToastSingleLiveEvent() {
         return displayToastSingleLiveEvent;
     }
 
     public Task<AuthResult> onSignupButton() {
         if (signupMail == null || signupPassword == null) {
-            displayToastSingleLiveEvent.setValue(R.string.login_error_message);
+            displayToastSingleLiveEvent.setValue(new Event<>(R.string.login_error_message));
             return null;
         } else {
             return firebaseAuthRepository.signUp(signupMail, signupPassword);

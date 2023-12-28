@@ -4,10 +4,10 @@ import com.example.go4lunch.data.gps.entity.LocationEntity;
 
 public class GpsLocationRepository{
 
-    private LocationEntity locationEntity;
+    // Injecter FusedLocationProviderClient ici (à @Provide avec Hilt)
+    public GpsLocationRepository() {
 
-    public GpsLocationRepository(LocationEntity locationEntity) {
-        this.locationEntity = locationEntity;
     }
+
 
 }
