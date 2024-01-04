@@ -2,6 +2,8 @@ package com.example.go4lunch.data.di;
 
 import com.example.go4lunch.data.AuthRepository;
 import com.example.go4lunch.data.FirebaseAuthRepository;
+import com.example.go4lunch.data.gps.GpsLocationRepository;
+import com.example.go4lunch.data.gps.GpsLocationRepositoryBroadcastReceiver;
 
 import javax.inject.Singleton;
 
@@ -18,4 +20,9 @@ public abstract class DataBindingModule {
     @Singleton
     public abstract AuthRepository bindAuthRepository(FirebaseAuthRepository impl);
 
+    @Binds
+    @Singleton
+    public abstract GpsLocationRepository bindGpsLocationRepository(
+        GpsLocationRepositoryBroadcastReceiver gpsLocationRepositoryBroadcastReceiver
+    );
 }

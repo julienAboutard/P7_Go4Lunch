@@ -1,13 +1,14 @@
 package com.example.go4lunch.data.gps;
 
-import com.example.go4lunch.data.gps.entity.LocationEntity;
+import androidx.lifecycle.LiveData;
 
-public class GpsLocationRepository{
+import com.example.go4lunch.data.gps.entity.LocationStateEntity;
 
-    // Injecter FusedLocationProviderClient ici (à @Provide avec Hilt)
-    public GpsLocationRepository() {
+public interface GpsLocationRepository {
 
-    }
+    LiveData<LocationStateEntity> getLocationStateLiveData();
 
+    void startLocationRequest();
 
+    void stopLocationRequest();
 }
