@@ -2,8 +2,10 @@ package com.example.go4lunch.ui.home;
 
 import static com.example.go4lunch.ui.home.HomeDisplayScreen.MAP_FRAGMENT;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -84,6 +87,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setFragmentObserver() {
+
         viewModel.getHomeDisplayScreenLiveEvent().observe(this, homeDisplayScreenEvent -> {
             HomeDisplayScreen homeDisplayScreen = homeDisplayScreenEvent.getContentIfNotHandled();
 

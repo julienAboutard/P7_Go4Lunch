@@ -1,4 +1,4 @@
-package com.example.go4lunch.data.gps;
+package com.example.go4lunch.data.gps.location;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -16,6 +16,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.go4lunch.data.gps.GpsLocationRepository;
 import com.example.go4lunch.data.gps.entity.LocationEntity;
 import com.example.go4lunch.data.gps.entity.LocationStateEntity;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -30,7 +31,7 @@ import javax.inject.Singleton;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
 @Singleton
-public class GpsLocationRepositoryBroadcastReceiver extends BroadcastReceiver implements GpsLocationRepository{
+public class GpsLocationRepositoryBroadcastReceiver extends BroadcastReceiver implements GpsLocationRepository {
 
     private static final long LOCATION_REQUEST_INTERVAL_MS = 10_000;
     private static final int SMALLEST_DISPLACEMENT_THRESHOLD_METER = 100;

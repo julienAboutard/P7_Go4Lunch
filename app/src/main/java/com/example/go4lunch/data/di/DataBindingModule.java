@@ -3,7 +3,7 @@ package com.example.go4lunch.data.di;
 import com.example.go4lunch.data.AuthRepository;
 import com.example.go4lunch.data.FirebaseAuthRepository;
 import com.example.go4lunch.data.gps.GpsLocationRepository;
-import com.example.go4lunch.data.gps.GpsLocationRepositoryBroadcastReceiver;
+import com.example.go4lunch.data.gps.location.GpsLocationRepositoryBroadcastReceiver;
 
 import javax.inject.Singleton;
 
