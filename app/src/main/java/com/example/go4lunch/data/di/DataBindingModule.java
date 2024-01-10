@@ -1,8 +1,8 @@
 package com.example.go4lunch.data.di;
 
-import com.example.go4lunch.data.AuthRepository;
-import com.example.go4lunch.data.FirebaseAuthRepository;
-import com.example.go4lunch.data.gps.GpsLocationRepository;
+import com.example.go4lunch.data.firebaseauth.AuthRepository;
+import com.example.go4lunch.data.firebaseauth.FirebaseAuthRepository;
+import com.example.go4lunch.data.gps.location.GpsLocationRepository;
 import com.example.go4lunch.data.gps.location.GpsLocationRepositoryBroadcastReceiver;
 
 import javax.inject.Singleton;

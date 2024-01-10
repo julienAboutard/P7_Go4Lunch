@@ -1,4 +1,4 @@
-package com.example.go4lunch.data.gps;
+package com.example.go4lunch.data.gps.location;
 
 import androidx.lifecycle.LiveData;
 

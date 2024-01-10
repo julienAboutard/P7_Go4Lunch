@@ -1,10 +1,16 @@
 package com.example.go4lunch.data.di;
 
+import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
+import com.example.go4lunch.data.api.GooglePlacesApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -13,10 +19,43 @@ import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 @InstallIn(SingletonComponent.class)
 public class DataModule {
+
+    private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/";
+
+    @Provides
+    @Singleton
+    public Retrofit provideRetrofit(@NonNull Application application) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .cache(new Cache(application.getCacheDir(), 1_024 * 1_024))
+            .build();
+
+        return new Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+    }
+
+    @Provides
+    @Singleton
+    public GooglePlacesApi provideGoogleMapsApi(@NonNull Retrofit retrofit) {
+        return retrofit.create(GooglePlacesApi.class);
+    }
 
     @Provides
     @Singleton
@@ -29,4 +68,5 @@ public class DataModule {
     public FusedLocationProviderClient provideFusedLocationProviderClient(@ApplicationContext Context context) {
         return LocationServices.getFusedLocationProviderClient(context);
     }
+
 }

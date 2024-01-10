@@ -1,4 +1,4 @@
-package com.example.go4lunch.data;
+package com.example.go4lunch.data.firebaseauth;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

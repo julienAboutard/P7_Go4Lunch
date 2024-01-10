@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.go4lunch.data.AuthRepository;
+import com.example.go4lunch.data.firebaseauth.AuthRepository;
 import com.example.go4lunch.ui.navigation.Destination;
 import com.example.go4lunch.ui.utils.Event;
 
