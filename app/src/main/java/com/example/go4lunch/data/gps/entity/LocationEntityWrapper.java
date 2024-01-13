@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 
 import java.util.Objects;
 
-public abstract class LocationStateEntity {
+public abstract class LocationEntityWrapper {
 
-    public static class GpsProviderEnabled extends LocationStateEntity {
+    public static class GpsProviderEnabled extends LocationEntityWrapper {
         @NonNull
         public final LocationEntity locationEntity;
 
@@ -40,6 +40,6 @@ public abstract class LocationStateEntity {
         }
     }
 
-    public static class GpsProviderDisabled extends LocationStateEntity {
+    public static class GpsProviderDisabled extends LocationEntityWrapper {
     }
 }

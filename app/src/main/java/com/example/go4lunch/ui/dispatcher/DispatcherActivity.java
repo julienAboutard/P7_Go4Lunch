@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.go4lunch.ui.home.HomeActivity;
 import com.example.go4lunch.ui.login.LoginActivity;
 import com.example.go4lunch.ui.navigation.Destination;
+import com.example.go4lunch.ui.onboarding.OnBoardingActivity;
 import com.example.go4lunch.ui.utils.Event;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -42,6 +43,8 @@ public class DispatcherActivity extends AppCompatActivity {
                         startActivity(LoginActivity.navigate(DispatcherActivity.this));
                         finish();
                         break;
+                    case ONBOARDING:
+                        startActivity(OnBoardingActivity.navigate(DispatcherActivity.this));
                 }
             }
         });

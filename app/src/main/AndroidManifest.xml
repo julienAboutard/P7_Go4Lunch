@@ -42,10 +42,13 @@
         <activity android:name=".ui.signup.SignupActivity"
             android:exported="true"
             />
+        <activity android:name=".ui.onboarding.OnBoardingActivity"
+            android:exported="true"
+            />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="${API_KEY}" />
 
     </application>
 

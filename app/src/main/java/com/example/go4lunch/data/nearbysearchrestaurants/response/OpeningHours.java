@@ -1,4 +1,4 @@
-package com.example.go4lunch.data.nearbysearchrestaurants;
+package com.example.go4lunch.data.nearbysearchrestaurants.response;
 
 import com.google.gson.annotations.SerializedName;
 

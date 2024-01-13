@@ -1,4 +1,4 @@
-package com.example.go4lunch.data.nearbysearchrestaurants;
+package com.example.go4lunch.data.nearbysearchrestaurants.response;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

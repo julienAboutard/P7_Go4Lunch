@@ -18,9 +18,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
-import com.example.go4lunch.data.gps.location.GpsLocationRepository;
+import com.example.go4lunch.data.gps.entity.LocationEntityWrapper;
 import com.example.go4lunch.data.gps.entity.LocationEntity;
-import com.example.go4lunch.data.gps.entity.LocationStateEntity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,6 +48,7 @@ public class GpsLocationRepositoryBroadcastReceiver extends BroadcastReceiver im
 
     @NonNull
     private final MutableLiveData<Boolean> isGpsEnabledMutableLiveData;
+
 
     private final LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -86,23 +86,23 @@ public class GpsLocationRepositoryBroadcastReceiver extends BroadcastReceiver im
         }
     }
 
-    //@Override
-    public LiveData<LocationStateEntity> getLocationStateLiveData() {
-        MediatorLiveData<LocationStateEntity> gpsResponseMediatorLiveData = new MediatorLiveData<>();
+    @Override
+    public LiveData<LocationEntityWrapper> getLocationStateLiveData() {
+        MediatorLiveData<LocationEntityWrapper> gpsResponseMediatorLiveData = new MediatorLiveData<>();
         Observer<Object> observer = o -> {
-            LocationStateEntity locationStateEntity;
+            LocationEntityWrapper locationEntityWrapper;
 
             Boolean isGpsEnabled = isGpsEnabledMutableLiveData.getValue();
             LocationEntity locationEntity = gpsLocationEntityMutableLiveData.getValue();
 
             if (isGpsEnabled != null && !isGpsEnabled) {
-                locationStateEntity = new LocationStateEntity.GpsProviderDisabled();
+                locationEntityWrapper = new LocationEntityWrapper.GpsProviderDisabled();
             } else if (locationEntity == null) {
                 return;
             } else {
-                locationStateEntity = new LocationStateEntity.GpsProviderEnabled(locationEntity);
+                locationEntityWrapper = new LocationEntityWrapper.GpsProviderEnabled(locationEntity);
             }
-            gpsResponseMediatorLiveData.setValue(locationStateEntity);
+            gpsResponseMediatorLiveData.setValue(locationEntityWrapper);
         };
         gpsResponseMediatorLiveData.addSource(gpsLocationEntityMutableLiveData, observer);
         gpsResponseMediatorLiveData.addSource(isGpsEnabledMutableLiveData, observer);

@@ -4,4 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_primary">#F44708</color>
     <color name="color_secondary">#EE825A</color>
+
+    <color name="error_red">#e63946</color>
+    <color name="ok_green">#3D9C41</color>
+    <color name="ok_green_pale">#BDE8BF</color>
+    <color name="transparent">#00000000</color>
 </resources>
