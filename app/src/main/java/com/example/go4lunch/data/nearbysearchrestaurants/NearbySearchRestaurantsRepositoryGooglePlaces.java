@@ -74,17 +74,13 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                                     response.body(),
                                     location
                                 );
-                                Log.d("Control2", ""+nearbySearchRestaurantsEntityList.size());
                                 if (nearbySearchRestaurantsEntityList != null) {
-                                    Log.d("Control", "onResponse: test wrapper");
                                     nearbySearchHashMap.put(userLocation, nearbySearchRestaurantsEntityList);
                                     resultMutableLiveData.setValue(
                                         new NearbySearchRestaurantsWrapper.Success(
                                             nearbySearchRestaurantsEntityList
                                         )
                                     );
-                                    Log.d("Control", "onResponse: "+resultMutableLiveData.getValue());
-
                                 }
                             } else if (response.isSuccessful() &&
                                 response.body() != null &&

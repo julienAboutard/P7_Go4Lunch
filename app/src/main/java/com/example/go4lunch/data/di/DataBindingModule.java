@@ -8,6 +8,10 @@ import com.example.go4lunch.data.gps.permission.GpsPermissionRepository;
 import com.example.go4lunch.data.gps.permission.GpsPermissionRepositoryImpl;
 import com.example.go4lunch.data.nearbysearchrestaurants.NearbySearchRestaurantsRepository;
 import com.example.go4lunch.data.nearbysearchrestaurants.NearbySearchRestaurantsRepositoryGooglePlaces;
+import com.example.go4lunch.data.user.FavoriteRestaurantRepository;
+import com.example.go4lunch.data.user.FirestoreFavoriteRestaurantRepository;
+import com.example.go4lunch.data.user.FirestoreUserRepository;
+import com.example.go4lunch.data.user.UserRepository;
 
 import javax.inject.Singleton;
 
@@ -40,4 +44,13 @@ public abstract class DataBindingModule {
         NearbySearchRestaurantsRepositoryGooglePlaces nearbySearchRestaurantsRepositoryGooglePlaces
     );
 
+    @Binds
+    @Singleton
+    public abstract UserRepository bindsUserRepository(FirestoreUserRepository firestoreUserRepository);
+
+    @Binds
+    @Singleton
+    public abstract FavoriteRestaurantRepository bindsFavoriteRestaurantRepository(
+        FirestoreFavoriteRestaurantRepository firestoreFavoriteRestaurantRepository
+    );
 }

@@ -32,28 +32,26 @@
 
         <ImageView
             android:id="@+id/nav_header_avatar_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
             tools:srcCompat="@tools:sample/avatars" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/nav_header_name_user"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:padding="4dp"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@id/nav_header_mail_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

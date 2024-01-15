@@ -71,7 +71,23 @@ public class SignupActivity extends AppCompatActivity {
                 viewModel.onPasswordChanged(editable.toString());
             }
         });
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        binding.signupNameTextEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                viewModel.onNameChanged(editable.toString());
+            }
+        });
         binding.signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,9 +95,10 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            viewModel.onLoginComplete();
                             startActivity(DispatcherActivity.navigate(SignupActivity.this));
                         } else {
-                            Toast.makeText(SignupActivity.this, ""+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

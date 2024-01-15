@@ -1,7 +1,7 @@
 <resources>
 
     <string name="google_client_id" translatable="false">459295234377-fubcot3rmvouf5ju5i6vuui2ocoq8oa0.apps.googleusercontent.com</string>
-
+    <string name="google_image_url" translatable="false">"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&amp;photo_reference=%1$s&amp;key=%2$s"</string>
 
 
     <string name="app_name">Go4Lunch</string>
@@ -15,7 +15,14 @@
     <string name="login_password_hint">Password</string>
     <string name="other_methods">Use other Methods</string>
     <string name="login_error_message">MAIL OR PASSWORD IS EMPTY</string>
+    <string name="signup_error_message">MAIL OR PASSWORD OR NAME IS EMPTY</string>
+    <string name="signup_name_hint">Full name</string>
     <string name="signup_button">Sign Up</string>
+
+    <string name="home_navigation_lunch">YOUR LUNCH</string>
+    <string name="home_navigation_settings">SETTINGS</string>
+    <string name="home_navigation_logout">LOGOUT</string>
+    <string name="toast_message_user_no_restaurant_chosen">You did not chose where to lunch yet!</string>
 
     <string name="onboarding_privacy_message">Don\'t worry, we value your privacy \nand won\'t share your data!</string>
     <string name="onboarding_decline_button">No, thank you</string>
@@ -25,6 +32,13 @@
     <string name="show_rationale_permission_message">This app works with your permission to GPS location. We only need it to provide you restaurants in your area! If you want to grant this permission, please click on \'Change settings\'.</string>
     <string name="show_rationale_title">Permission required</string>
     <string name="change_settings_dialog_button">change settings</string>
+
+    <string name="list_error_message_no_results">Oops, no results found in your area!</string>
+    <string name="list_error_message_no_gps">Please activate you Gps\nto view the list</string>
+    <string name="list_no_restaurant_match">No restaurant match found nearby</string>
+    <string name="list_error_message_generic">Something went wrong with your request!\nTry later :)</string>
+
+    <string name="distance_meter" translatable="false">m</string>
 
     <string name="list_restaurant_opening_text_open">Open</string>
     <string name="list_restaurant_opening_text_closed">Closed</string>

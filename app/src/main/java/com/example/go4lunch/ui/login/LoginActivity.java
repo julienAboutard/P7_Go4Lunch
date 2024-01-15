@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
+    private LoginViewModel viewModel;
+
     public static Intent navigate(Context context) {
         return new Intent(context, LoginActivity.class);
     }
@@ -83,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             Log.d(TAG, "onActivityResult(7) called with: result = [" + result + "]");
 
-                                            //viewModel.onLoginComplete();
+                                            viewModel.onLoginComplete();
                                             startActivity(DispatcherActivity.navigate(LoginActivity.this));
                                             Log.i(TAG, "Firebase auth google successful");
                                         } else {
@@ -108,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivityBinding viewBinding = LoginActivityBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
 
-        LoginViewModel viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         viewBinding.loginMailTextEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -152,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
                             startActivity(DispatcherActivity.navigate(LoginActivity.this));
                             finish();
                         } else {
@@ -203,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d(TAG, "EMILIE " + authResult.getAdditionalUserInfo().getProfile().get("email"));
                                     }
 
-                                    //viewModel.onLoginComplete();
+                                    viewModel.onLoginComplete();
                                     startActivity(DispatcherActivity.navigate(this));
                                 }
                             }

@@ -2,6 +2,7 @@ package com.example.go4lunch.data.di;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 
 import androidx.annotation.NonNull;
 
@@ -9,7 +10,9 @@ import com.example.go4lunch.data.api.GooglePlacesApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.Clock;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -69,4 +72,21 @@ public class DataModule {
         return LocationServices.getFusedLocationProviderClient(context);
     }
 
+    @Provides
+    @Singleton
+    public Resources provideResources(@NonNull Application application) {
+        return application.getResources();
+    }
+
+    @Provides
+    @Singleton
+    public FirebaseFirestore provideFirebaseFirestore() {
+        return FirebaseFirestore.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    public Clock provideClock() {
+        return Clock.systemDefaultZone();
+    }
 }

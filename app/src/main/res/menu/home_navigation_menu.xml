@@ -7,15 +7,15 @@
         android:id="@+id/home_navigation_item_lunch"
         android:icon="@drawable/restaurant_24"
         android:orderInCategory="1"
-        android:title="Item" />
+        android:title="@string/home_navigation_lunch" />
     <item
         android:id="@+id/home_navigation_item_settings"
         android:icon="@drawable/settings_24"
         android:orderInCategory="2"
-        android:title="Item" />
+        android:title="@string/home_navigation_lunch" />
     <item
         android:id="@+id/home_navigation_item_logout"
         android:icon="@drawable/logout_24"
         android:orderInCategory="3"
-        android:title="Item" />
+        android:title="@string/home_navigation_logout" />
 </menu>
