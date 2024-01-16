@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.data.firebaseauth.AuthRepository;
-import com.example.go4lunch.domain.user.AddLoggedExternalUserEntityUseCase;
+import com.example.go4lunch.domain.user.AddLoggedUserEntityUseCase;
 import com.example.go4lunch.ui.utils.Event;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,15 +26,15 @@ public class LoginViewModel extends ViewModel {
     private final MutableLiveData<Event<Integer>> displayToastSingleLiveEvent = new MutableLiveData<>();
 
     @NonNull
-    private final AddLoggedExternalUserEntityUseCase addLoggedExternalUserEntityUseCase;
+    private final AddLoggedUserEntityUseCase addLoggedUserEntityUseCase;
 
     @Inject
     public LoginViewModel(
         @NonNull AuthRepository authRepository,
-        @NonNull AddLoggedExternalUserEntityUseCase addLoggedExternalUserEntityUseCase
+        @NonNull AddLoggedUserEntityUseCase addLoggedUserEntityUseCase
     ) {
         this.authRepository = authRepository;
-        this.addLoggedExternalUserEntityUseCase = addLoggedExternalUserEntityUseCase;
+        this.addLoggedUserEntityUseCase = addLoggedUserEntityUseCase;
     }
 
     public void onMailChanged(String mail) {
@@ -59,6 +59,6 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void onLoginComplete() {
-        addLoggedExternalUserEntityUseCase.invoke();
+        addLoggedUserEntityUseCase.invoke();
     }
 }

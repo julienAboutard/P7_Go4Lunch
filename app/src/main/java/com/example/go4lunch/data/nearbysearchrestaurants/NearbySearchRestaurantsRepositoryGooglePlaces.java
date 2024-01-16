@@ -52,7 +52,6 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
         LocationEntity userLocation = new LocationEntity(latitude, longitude);
         List<NearbySearchRestaurantsEntity> nearbyRestaurantsList = nearbySearchHashMap.get(userLocation);
         String location = latitude + "," + longitude;
-        Log.d("Control", location);
         if (nearbyRestaurantsList == null) {
             resultMutableLiveData.setValue(new NearbySearchRestaurantsWrapper.Loading());
             googlePlacesApi.getNearby(
@@ -65,6 +64,7 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                     new Callback<NearbySearchResponse>() {
                         @Override
                         public void onResponse(Call<NearbySearchResponse> call, Response<NearbySearchResponse> response) {
+                            Log.d("controle", "onResponse: "+response.body());
                             if (response.isSuccessful() &&
                                 response.body() != null &&
                                 response.body().getStatus() != null &&
@@ -76,6 +76,7 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                                 );
                                 if (nearbySearchRestaurantsEntityList != null) {
                                     nearbySearchHashMap.put(userLocation, nearbySearchRestaurantsEntityList);
+                                    Log.d("controle1", "onResponse: nearbylist "+nearbySearchRestaurantsEntityList);
                                     resultMutableLiveData.setValue(
                                         new NearbySearchRestaurantsWrapper.Success(
                                             nearbySearchRestaurantsEntityList
@@ -103,8 +104,10 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                         }
                     }
                 );
+        } else {
+            resultMutableLiveData.setValue(new NearbySearchRestaurantsWrapper.Success(nearbyRestaurantsList));
         }
-        return null;
+        return resultMutableLiveData;
     }
 
     private List<NearbySearchRestaurantsEntity> mapToNearbySearchEntityList(
@@ -114,7 +117,8 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
         List<NearbySearchRestaurantsEntity> results = new ArrayList<>();
 
         if (response != null && response.getResults() != null) {
-
+            Log.d("controle3", "mapToNearbySearchEntityList: response "+response);
+            Log.d("controle3", "mapToNearbySearchEntityList: result "+response.getResults());
             for (ResultsItem result : response.getResults()) {
                 String placeId = result.getPlaceId();
                 String name = result.getName();
@@ -139,9 +143,11 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                 LocationEntity locationEntity;
                 Integer distance;
                 if (result.getGeometry() != null && result.getGeometry().getLocation() != null) {
+                    Log.d("controle2", "mapToNearbySearchEntityList: result.getgeo "+result.getGeometry());
                     Double latitude = result.getGeometry().getLocation().getLatitude();
                     Double longitude = result.getGeometry().getLocation().getLongitude();
                     locationEntity = new LocationEntity(latitude, longitude);
+                    Log.d("controle2", "mapToNearbySearchEntityList: locattionEntity "+locationEntity);
                     distance = getDistanceFromUserLocation(locationEntity, userLocation);
                 } else {
                     locationEntity = null;

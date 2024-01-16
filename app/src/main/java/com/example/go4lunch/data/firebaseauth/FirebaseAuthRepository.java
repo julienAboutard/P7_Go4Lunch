@@ -10,10 +10,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.data.firebaseauth.entity.LoggedUserEntity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -33,23 +35,30 @@ public class FirebaseAuthRepository implements AuthRepository {
         this.firebaseAuth = firebaseAuth;
 
         firebaseAuth.addAuthStateListener(
-            new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    boolean isUserLogged = firebaseAuth.getCurrentUser() != null;
-                    isUserLoggedMutableLiveData.setValue(isUserLogged);
+            firebaseAuth1 -> {
+                boolean isUserLogged = firebaseAuth1.getCurrentUser() != null;
+                isUserLoggedMutableLiveData.setValue(isUserLogged);
 
-                    if (firebaseAuth.getCurrentUser() != null &&
-                        firebaseAuth.getCurrentUser().getPhotoUrl() != null &&
-                        firebaseAuth.getCurrentUser().getDisplayName() != null) {
+                if (firebaseAuth1.getCurrentUser() != null &&
+                    firebaseAuth1.getCurrentUser().getDisplayName() != null) {
+                    if (firebaseAuth1.getCurrentUser().getPhotoUrl() != null) {
                         loggedUserMutableLiveData.setValue(new LoggedUserEntity(
-                                firebaseAuth.getCurrentUser().getUid(),
-                                firebaseAuth.getCurrentUser().getDisplayName(),
-                                firebaseAuth.getCurrentUser().getEmail(),
-                                firebaseAuth.getCurrentUser().getPhotoUrl().toString()
+                                firebaseAuth1.getCurrentUser().getUid(),
+                                firebaseAuth1.getCurrentUser().getDisplayName(),
+                                firebaseAuth1.getCurrentUser().getEmail(),
+                                firebaseAuth1.getCurrentUser().getPhotoUrl().toString()
+                            )
+                        );
+                    } else {
+                        loggedUserMutableLiveData.setValue(new LoggedUserEntity(
+                                firebaseAuth1.getCurrentUser().getUid(),
+                                firebaseAuth1.getCurrentUser().getDisplayName(),
+                                firebaseAuth1.getCurrentUser().getEmail(),
+                                null
                             )
                         );
                     }
+
                 }
             }
         );
@@ -108,8 +117,17 @@ public class FirebaseAuthRepository implements AuthRepository {
     }
 
     @Override
-    public Task<AuthResult> signUp(String mail, String password) {
-        return firebaseAuth.createUserWithEmailAndPassword(mail, password);
+    public Task<AuthResult> signUp(String mail, String password, String name) {
+        return firebaseAuth.createUserWithEmailAndPassword(mail, password)
+            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                @Override
+                public void onSuccess(AuthResult authResult) {
+                    UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(name)
+                        .build();
+                    authResult.getUser().updateProfile(userProfileChangeRequest);
+                }
+            });
     }
 
     @Override

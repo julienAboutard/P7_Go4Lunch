@@ -18,7 +18,7 @@ public class SignupUserUseCase {
         this.authRepository = authRepository;
     }
 
-    public Task<AuthResult> invoke(@NonNull String mail, @NonNull String pwd) {
-        return authRepository.signUp(mail, pwd);
+    public Task<AuthResult> invoke(@NonNull String mail, @NonNull String pwd, @NonNull String name) {
+        return authRepository.signUp(mail, pwd, name);
     }
 }

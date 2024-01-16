@@ -65,10 +65,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setMyLocationEnabled(true);
 
-        Log.d("Control", "map1");
+        Log.d("controle", "onMapReady: "+viewModel.getMapViewState().getValue());
         viewModel.getMapViewState().observe(getViewLifecycleOwner(), mapViewState -> {
             Log.d("Control", "marker");
                 clearMarkers();

@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.domain.authentification.SignupUserUseCase;
-import com.example.go4lunch.domain.user.AddLoggedExternalUserEntityUseCase;
-import com.example.go4lunch.domain.user.AddLoggedInternalUserUseCase;
+import com.example.go4lunch.domain.user.AddLoggedUserEntityUseCase;
 import com.example.go4lunch.ui.utils.Event;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,7 +23,7 @@ public class SignupViewModel extends ViewModel {
     private final SignupUserUseCase signupUserUseCase;
 
     @NonNull
-    private final AddLoggedInternalUserUseCase addLoggedInternalUserUseCase;
+    private final AddLoggedUserEntityUseCase addLoggedUserEntityUseCase;
 
     private String signupMail;
 
@@ -37,10 +36,10 @@ public class SignupViewModel extends ViewModel {
     @Inject
     public SignupViewModel(
         @NonNull SignupUserUseCase signupUserUseCase,
-        @NonNull AddLoggedInternalUserUseCase addLoggedInternalUserUseCase
+        @NonNull AddLoggedUserEntityUseCase addLoggedUserEntityUseCase
     ) {
         this.signupUserUseCase = signupUserUseCase;
-        this.addLoggedInternalUserUseCase = addLoggedInternalUserUseCase;
+        this.addLoggedUserEntityUseCase = addLoggedUserEntityUseCase;
     }
 
     public void onMailChanged(String mail) {
@@ -62,11 +61,11 @@ public class SignupViewModel extends ViewModel {
             displayToastSingleLiveEvent.setValue(new Event<>(R.string.signup_error_message));
             return null;
         } else {
-            return signupUserUseCase.invoke(signupMail, signupPassword);
+            return signupUserUseCase.invoke(signupMail, signupPassword, signupName);
         }
     }
     public void onLoginComplete() {
-        addLoggedInternalUserUseCase.invoke(signupMail, signupName);
+        addLoggedUserEntityUseCase.invoke();
     }
 
 }

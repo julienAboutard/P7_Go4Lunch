@@ -10,7 +10,7 @@ import com.example.go4lunch.domain.authentification.GetCurrentLoggedUserUseCase;
 
 import javax.inject.Inject;
 
-public class AddLoggedExternalUserEntityUseCase {
+public class AddLoggedUserEntityUseCase {
 
     @NonNull
     private final UserRepository userRepository;
@@ -19,7 +19,7 @@ public class AddLoggedExternalUserEntityUseCase {
     private final GetCurrentLoggedUserUseCase getCurrentLoggedUserUseCase;
 
     @Inject
-    public AddLoggedExternalUserEntityUseCase(
+    public AddLoggedUserEntityUseCase(
         @NonNull UserRepository userRepository,
         @NonNull GetCurrentLoggedUserUseCase getCurrentLoggedUserUseCase
     ) {

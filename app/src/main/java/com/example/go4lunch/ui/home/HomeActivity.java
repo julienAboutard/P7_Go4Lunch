@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.go4lunch.R;
+import com.example.go4lunch.data.firebaseauth.entity.LoggedUserEntity;
 import com.example.go4lunch.databinding.HomeActivityBinding;
 import com.example.go4lunch.databinding.HomeNavigationHeaderBinding;
 import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
@@ -41,8 +42,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 //public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 public class HomeActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
-
     private HomeActivityBinding binding;
 
     private HomeViewModel viewModel;
@@ -58,7 +57,6 @@ public class HomeActivity extends AppCompatActivity {
         binding = HomeActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        firebaseAuth = FirebaseAuth.getInstance();
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         setSupportActionBar(binding.homeToolbar);
@@ -106,9 +104,7 @@ public class HomeActivity extends AppCompatActivity {
         HomeNavigationHeaderBinding navigationHeaderBinding = HomeNavigationHeaderBinding.bind(
             binding.homeNavigationView.getHeaderView(0)
         );
-
         viewModel.getUserInfoLiveData().observe(this, currentLoggedUser -> {
-            Log.d("Controle", "mail "+currentLoggedUser.getEmail()+" name "+currentLoggedUser.getName()+" picture "+currentLoggedUser.getPictureUrl());
                 Glide.with(this)
                     .load(currentLoggedUser.getPictureUrl())
                     .fallback(R.drawable.outline_person_24)

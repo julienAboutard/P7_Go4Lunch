@@ -1,5 +1,7 @@
 package com.example.go4lunch.domain.user;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -36,7 +38,6 @@ public class GetUserEntityUseCase {
         LiveData<UserWithRestaurantChoiceEntity> userWithRestaurantChoiceEntityLiveData = getUserWithRestaurantChoiceEntityLiveDataUseCase.invoke();
         LiveData<Boolean> isUserLoggedInLiveData = isUserLoggedInLiveDataUseCase.invoke();
         LiveData<LoggedUserEntity> loggedUserEntityLiveData = authRepository.getLoggedUserLiveData();
-
         userEntityMediatorLiveData.addSource(isUserLoggedInLiveData, isUserLoggedIn -> {
                 combine(
                     isUserLoggedIn,

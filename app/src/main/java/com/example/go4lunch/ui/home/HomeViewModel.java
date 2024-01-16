@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.go4lunch.data.firebaseauth.entity.LoggedUserEntity;
 import com.example.go4lunch.data.user.entity.UserEntity;
 import com.example.go4lunch.data.user.entity.UserWithRestaurantChoiceEntity;
+import com.example.go4lunch.domain.authentification.GetCurrentLoggedUserUseCase;
 import com.example.go4lunch.domain.authentification.IsUserLoggedInLiveDataUseCase;
 import com.example.go4lunch.domain.authentification.LogoutUserUseCase;
 import com.example.go4lunch.domain.chosedrestaurant.GetUserWithRestaurantChoiceEntityLiveDataUseCase;
@@ -53,7 +54,7 @@ public class HomeViewModel extends ViewModel {
         @NonNull IsUserLoggedInLiveDataUseCase isUserLoggedInLiveDataUseCase,
         @NonNull GetUserWithRestaurantChoiceEntityLiveDataUseCase getUserWithRestaurantChoiceEntityLiveDataUseCase,
         @NonNull GetUserEntityUseCase getUserEntityUseCase
-    ) {
+        ) {
         this.logoutUserUseCase = logoutUserUseCase;
         this.isGpsEnabledUseCase = isGpsEnabledUseCase;
         this.startLocationRequestUseCase = startLocationRequestUseCase;
@@ -89,7 +90,6 @@ public class HomeViewModel extends ViewModel {
     public LiveData<Boolean> isGpsEnabledLiveData() {
         return isGpsEnabledUseCase.invoke();
     }
-
 
     public LiveData<UserWithRestaurantChoiceEntity> getUserWithRestaurantChoice() {
         return getUserWithRestaurantChoiceEntityLiveDataUseCase.invoke();

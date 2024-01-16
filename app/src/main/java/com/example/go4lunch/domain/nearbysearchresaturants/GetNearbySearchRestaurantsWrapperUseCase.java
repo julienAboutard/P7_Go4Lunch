@@ -1,5 +1,7 @@
 package com.example.go4lunch.domain.nearbysearchresaturants;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -50,7 +52,9 @@ public class GetNearbySearchRestaurantsWrapperUseCase {
                             new Exception("GpsProviderDisabled")
                         )
                     );
-                } else return null;
+                } else {
+                    return null;
+                }
             }
         );
     }
