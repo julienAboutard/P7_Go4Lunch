@@ -49,7 +49,6 @@ public class MapViewModel extends ViewModel {
         this.getCurrentLocationUseCase = getCurrentLocationUseCase;
 
         LiveData<NearbySearchRestaurantsWrapper> nearbySearchRestaurantsWrapperLiveData = getNearbySearchRestaurantsWrapperUseCase.invoke();
-        Log.d("controle", "MapViewModel: "+nearbySearchRestaurantsWrapperLiveData.getValue());
         LiveData<LocationEntityWrapper> locationEntityWrapperLiveData = getCurrentLocationUseCase.invoke();
         LiveData<Boolean> isGpsEnabledLiveData = isGpsEnabledUseCase.invoke();
 
@@ -99,24 +98,19 @@ public class MapViewModel extends ViewModel {
         @Nullable LocationEntityWrapper locationEntityWrapper,
         @Nullable NearbySearchRestaurantsWrapper nearbySearchRestaurantsWrapper
     ) {
-        Log.d("Control", "combine: "+ isGpsEnabled+" "+locationEntityWrapper+" "+nearbySearchRestaurantsWrapper);
         if (isGpsEnabled == null ||
             nearbySearchRestaurantsWrapper == null ||
             nearbySearchRestaurantsWrapper instanceof NearbySearchRestaurantsWrapper.Loading ||
             locationEntityWrapper == null
         ) {
-            Log.d("Control", "return void");
             return;
         }
 
         List<RestaurantMarkerViewStateItem> restaurantMarkerViewStateItems = new ArrayList<>();
         if (locationEntityWrapper instanceof LocationEntityWrapper.GpsProviderEnabled) {
-            Log.d("controle", "combine: don't return void");
             if (nearbySearchRestaurantsWrapper instanceof NearbySearchRestaurantsWrapper.Success) {
-                Log.d("controle", "combine: wrapper "+((NearbySearchRestaurantsWrapper.Success) nearbySearchRestaurantsWrapper).getNearbySearchRestaurantsEntityList());
                 for (NearbySearchRestaurantsEntity nearbySearchRestaurantsEntity :
                     ((NearbySearchRestaurantsWrapper.Success) nearbySearchRestaurantsWrapper).getNearbySearchRestaurantsEntityList()) {
-                    Log.d("controle", "combine: nearbysearchentity "+nearbySearchRestaurantsEntity.getLocationEntity());
                         restaurantMarkerViewStateItems.add(
                             new RestaurantMarkerViewStateItem(
                                 nearbySearchRestaurantsEntity.getPlaceId(),
@@ -128,7 +122,6 @@ public class MapViewModel extends ViewModel {
                             )
                         );
                 }
-                Log.d("Control", "add restaurant "+restaurantMarkerViewStateItems);
             } else if (nearbySearchRestaurantsWrapper instanceof NearbySearchRestaurantsWrapper.NoResults) {
                 noRestaurantFoundEvent.setValue(new Event<>(R.string.no_restaurant_found));
             }

@@ -34,17 +34,19 @@ import com.example.go4lunch.ui.workmatelist.WorkmateListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-//public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 public class HomeActivity extends AppCompatActivity {
 
     private HomeActivityBinding binding;
 
     private HomeViewModel viewModel;
+
+    private Snackbar snackbar;
 
     public static Intent navigate(Context context) {
         return new Intent(context, HomeActivity.class);
@@ -65,19 +67,6 @@ public class HomeActivity extends AppCompatActivity {
         initBottomNavigator();
     }
 
-   /* @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.home_navigation_item_logout) {
-            viewModel.signOut();
-        } else if (item.getItemId() == R.id.home_navigation_item_lunch) {
-            int a = 4;
-        } else if (item.getItemId() == R.id.home_navigation_item_settings) {
-            int b= 5;
-        }
-        return true;
-    }*/
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -96,7 +85,6 @@ public class HomeActivity extends AppCompatActivity {
         binding.homeDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         binding.homeNavigationView.bringToFront();
-        //binding.homeNavigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setFragmentObserver() {
@@ -140,7 +128,31 @@ public class HomeActivity extends AppCompatActivity {
             }
         );
 
-        viewModel.getHomeDisplayScreenLiveEvent().observe(this, homeDisplayScreenEvent -> {
+        viewModel.isGpsEnabledLiveData().observe(this, isGpsEnabled -> {
+                if (!isGpsEnabled) {
+                    snackbar = Snackbar
+                        .make(
+                            binding.getRoot(),
+                            "Enable GPS ?",
+                            Snackbar.LENGTH_INDEFINITE)
+                        .setAnchorView(R.id.bottom_bar_map)
+                        .setAction(
+                            "settings",
+                            view -> {
+                                Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(intent);
+                            }
+                        );
+                    snackbar.show();
+                } else {
+                    if (snackbar != null && snackbar.isShown()) {
+                        snackbar.dismiss();
+                    }
+                }
+            }
+        );
+
+        /*viewModel.getHomeDisplayScreenLiveEvent().observe(this, homeDisplayScreenEvent -> {
             HomeDisplayScreen homeDisplayScreen = homeDisplayScreenEvent.getContentIfNotHandled();
 
             if (homeDisplayScreen != null) {
@@ -158,7 +170,24 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
             }
-        });
+        });*/
+
+        viewModel.getFragmentStateSingleLiveEvent().observe(this, fragmentState -> {
+                switch (fragmentState) {
+                    case MAP_FRAGMENT:
+                        changeFragment(MapFragment.newInstance());
+                        break;
+                    case LIST_FRAGMENT:
+                        changeFragment(RestaurantListFragment.newInstance());
+                        break;
+                    case WORKMATES_FRAGMENT:
+                        changeFragment(WorkmateListFragment.newInstance());
+                        break;
+                    case CHAT_FRAGMENT:
+                        break;
+                }
+            }
+        );
 
         viewModel.onUserLogged().observe(this, loggingState -> {
                 if (!loggingState) {

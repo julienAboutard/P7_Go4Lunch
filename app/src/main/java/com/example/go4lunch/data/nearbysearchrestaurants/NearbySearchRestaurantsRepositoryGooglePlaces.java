@@ -64,7 +64,7 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                     new Callback<NearbySearchResponse>() {
                         @Override
                         public void onResponse(Call<NearbySearchResponse> call, Response<NearbySearchResponse> response) {
-                            Log.d("controle", "onResponse: "+response.body());
+                            Log.d("controle4", "onResponse: "+response.body().getStatus());
                             if (response.isSuccessful() &&
                                 response.body() != null &&
                                 response.body().getStatus() != null &&
@@ -144,8 +144,8 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                 Integer distance;
                 if (result.getGeometry() != null && result.getGeometry().getLocation() != null) {
                     Log.d("controle2", "mapToNearbySearchEntityList: result.getgeo "+result.getGeometry());
-                    Double latitude = result.getGeometry().getLocation().getLatitude();
-                    Double longitude = result.getGeometry().getLocation().getLongitude();
+                    Double latitude = result.getGeometry().getLocation().getLat();
+                    Double longitude = result.getGeometry().getLocation().getLng();
                     locationEntity = new LocationEntity(latitude, longitude);
                     Log.d("controle2", "mapToNearbySearchEntityList: locattionEntity "+locationEntity);
                     distance = getDistanceFromUserLocation(locationEntity, userLocation);

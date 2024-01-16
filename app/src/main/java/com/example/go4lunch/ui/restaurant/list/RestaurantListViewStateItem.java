@@ -61,7 +61,7 @@ public abstract class RestaurantListViewStateItem {
         private final String distance;
 
         @NonNull
-        private final String attendants = "0";
+        private final String attendants;
 
         @NonNull
         private final RestaurantOpeningState restaurantOpeningState;
@@ -80,6 +80,7 @@ public abstract class RestaurantListViewStateItem {
             @NonNull String name,
             @NonNull String address,
             @NonNull String distance,
+            @NonNull String attendants,
             @NonNull RestaurantOpeningState restaurantOpeningState,
             @Nullable String pictureUrl,
             @NonNull Boolean isRatingBarVisible,
@@ -90,6 +91,7 @@ public abstract class RestaurantListViewStateItem {
             this.name = name;
             this.address = address;
             this.distance = distance;
+            this.attendants = attendants;
             this.restaurantOpeningState = restaurantOpeningState;
             this.pictureUrl = pictureUrl;
             this.isRatingBarVisible = isRatingBarVisible;

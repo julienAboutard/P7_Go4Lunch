@@ -10,6 +10,7 @@ import static com.example.go4lunch.ui.restaurant.list.RestaurantOpeningState.IS_
 
 import android.content.res.Resources;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.example.go4lunch.domain.gps.IsGpsEnabledUseCase;
 import com.example.go4lunch.domain.location.GetCurrentLocationUseCase;
 import com.example.go4lunch.domain.nearbysearchresaturants.GetNearbySearchRestaurantsWrapperUseCase;
 import com.example.go4lunch.domain.permission.HasGpsPermissionUseCase;
+import com.example.go4lunch.domain.workmate.GetAttendantsGoingToSameRestaurantAsUserUseCase;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 
@@ -54,6 +56,7 @@ public class RestaurantListViewModel extends ViewModel {
         @NonNull GetCurrentLocationUseCase getCurrentLocationUseCase,
         @NonNull HasGpsPermissionUseCase hasGpsPermissionUseCase,
         @NonNull IsGpsEnabledUseCase isGpsEnabledUseCase,
+        @NonNull GetAttendantsGoingToSameRestaurantAsUserUseCase getAttendantsGoingToSameRestaurantAsUserUseCase,
         @NonNull Resources resources
     ) {
         this.resources = resources;
@@ -62,13 +65,18 @@ public class RestaurantListViewModel extends ViewModel {
         LiveData<Boolean> isGpsEnabledMutableLiveData = isGpsEnabledUseCase.invoke();
         LiveData<Boolean> hasGpsPermissionLiveData = hasGpsPermissionUseCase.invoke();
         LiveData<NearbySearchRestaurantsWrapper> nearbySearchRestaurantsWrapperLiveData = getNearbySearchRestaurantsWrapperUseCase.invoke();
+        LiveData<Map<String, Integer>> attendantsByRestaurantIdsLiveData = getAttendantsGoingToSameRestaurantAsUserUseCase.invoke();
+
+        Log.d("controle1", "RestaurantListViewModel: "+locationLiveData.getValue()+" "+isGpsEnabledMutableLiveData.getValue()+
+            " "+hasGpsPermissionLiveData.getValue()+" "+nearbySearchRestaurantsWrapperLiveData.getValue()+" "+resources);
 
         restaurantListMediatorLiveData.addSource(hasGpsPermissionLiveData, hasGpsPermission ->
             combine(
                 hasGpsPermission,
                 isGpsEnabledMutableLiveData.getValue(),
                 locationLiveData.getValue(),
-                nearbySearchRestaurantsWrapperLiveData.getValue()
+                nearbySearchRestaurantsWrapperLiveData.getValue(),
+                attendantsByRestaurantIdsLiveData.getValue()
             )
         );
 
@@ -77,7 +85,8 @@ public class RestaurantListViewModel extends ViewModel {
                 hasGpsPermissionLiveData.getValue(),
                 isGpsEnabledMutableLiveData.getValue(),
                 location,
-                nearbySearchRestaurantsWrapperLiveData.getValue()
+                nearbySearchRestaurantsWrapperLiveData.getValue(),
+                attendantsByRestaurantIdsLiveData.getValue()
             )
         );
 
@@ -86,7 +95,8 @@ public class RestaurantListViewModel extends ViewModel {
                 hasGpsPermissionLiveData.getValue(),
                 isGpsEnabledMutableLiveData.getValue(),
                 locationLiveData.getValue(),
-                nearbySearchWrapper
+                nearbySearchWrapper,
+                attendantsByRestaurantIdsLiveData.getValue()
             )
         );
 
@@ -95,7 +105,18 @@ public class RestaurantListViewModel extends ViewModel {
                 hasGpsPermissionLiveData.getValue(),
                 isGpsEnabled,
                 locationLiveData.getValue(),
-                nearbySearchRestaurantsWrapperLiveData.getValue()
+                nearbySearchRestaurantsWrapperLiveData.getValue(),
+                attendantsByRestaurantIdsLiveData.getValue()
+            )
+        );
+
+        restaurantListMediatorLiveData.addSource(attendantsByRestaurantIdsLiveData, attendantsRestaurantsId ->
+            combine(
+                hasGpsPermissionLiveData.getValue(),
+                isGpsEnabledMutableLiveData.getValue(),
+                locationLiveData.getValue(),
+                nearbySearchRestaurantsWrapperLiveData.getValue(),
+                attendantsRestaurantsId
             )
         );
     }
@@ -104,7 +125,8 @@ public class RestaurantListViewModel extends ViewModel {
         @Nullable Boolean hasGpsPermission,
         @Nullable Boolean isGpsEnabled,
         @Nullable LocationEntityWrapper locationStateEntity,
-        @Nullable NearbySearchRestaurantsWrapper nearbySearchRestaurantsWrapper
+        @Nullable NearbySearchRestaurantsWrapper nearbySearchRestaurantsWrapper,
+        @Nullable Map<String, Integer> attendantsByRestaurantIds
     ) {
         if (nearbySearchRestaurantsWrapper == null || locationStateEntity == null || isGpsEnabled == null) {
             return;
@@ -169,6 +191,7 @@ public class RestaurantListViewModel extends ViewModel {
                             nearbySearchEntity.getRestaurantName(),
                             nearbySearchEntity.getVicinity(),
                             nearbySearchEntity.getDistance() + resources.getString(R.string.distance_meter),
+                            getAttendants(nearbySearchEntity.getPlaceId(), attendantsByRestaurantIds),
                             formatOpeningStatus(nearbySearchEntity.getOpen()),
                             parseRestaurantPictureUrl(nearbySearchEntity.getPhotoReferenceUrl()),
                             isRatingBarVisible(nearbySearchEntity.getRating()),

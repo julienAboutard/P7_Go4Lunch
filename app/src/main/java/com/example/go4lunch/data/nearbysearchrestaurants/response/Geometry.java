@@ -1,7 +1,5 @@
 package com.example.go4lunch.data.nearbysearchrestaurants.response;
 
-import android.location.Location;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

@@ -1,5 +1,8 @@
 package com.example.go4lunch.ui.home;
 
+import static com.example.go4lunch.ui.home.HomeDisplayScreen.LIST_FRAGMENT;
+import static com.example.go4lunch.ui.home.HomeDisplayScreen.MAP_FRAGMENT;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -17,6 +20,7 @@ import com.example.go4lunch.domain.gps.IsGpsEnabledUseCase;
 import com.example.go4lunch.domain.location.StartLocationRequestUseCase;
 import com.example.go4lunch.domain.user.GetUserEntityUseCase;
 import com.example.go4lunch.ui.utils.Event;
+import com.example.go4lunch.ui.utils.SingleLiveEvent;
 
 import javax.inject.Inject;
 
@@ -44,6 +48,9 @@ public class HomeViewModel extends ViewModel {
     private final GetUserEntityUseCase getUserEntityUseCase;
 
     @NonNull
+    private final SingleLiveEvent<HomeDisplayScreen> fragmentStateSingleLiveEvent = new SingleLiveEvent<>();
+
+    @NonNull
     private final MutableLiveData<Event<HomeDisplayScreen>> homeDisplayScreenMutableLiveEvent = new MutableLiveData<>();
 
     @Inject
@@ -61,7 +68,8 @@ public class HomeViewModel extends ViewModel {
         this.isUserLoggedInLiveDataUseCase = isUserLoggedInLiveDataUseCase;
         this.getUserWithRestaurantChoiceEntityLiveDataUseCase = getUserWithRestaurantChoiceEntityLiveDataUseCase;
         this.getUserEntityUseCase = getUserEntityUseCase;
-        homeDisplayScreenMutableLiveEvent.setValue(new Event<>(HomeDisplayScreen.values()[0]));
+        //homeDisplayScreenMutableLiveEvent.setValue(new Event<>(HomeDisplayScreen.values()[0]));
+        fragmentStateSingleLiveEvent.setValue(MAP_FRAGMENT);
     }
 
     @NonNull
@@ -107,6 +115,10 @@ public class HomeViewModel extends ViewModel {
             }
         );
     }
+    @NonNull
+    public SingleLiveEvent<HomeDisplayScreen> getFragmentStateSingleLiveEvent() {
+        return fragmentStateSingleLiveEvent;
+    }
 
     public void signOut() {
         logoutUserUseCase.invoke();
@@ -116,7 +128,11 @@ public class HomeViewModel extends ViewModel {
         startLocationRequestUseCase.invoke();
     }
 
-    public void onChangeFragmentView(@NonNull HomeDisplayScreen homeDisplayScreen) {
+    /*public void onChangeFragmentView(@NonNull HomeDisplayScreen homeDisplayScreen) {
         homeDisplayScreenMutableLiveEvent.setValue(new Event<>(homeDisplayScreen));
+    }*/
+
+    public void onChangeFragmentView(@NonNull HomeDisplayScreen fragmentState) {
+        fragmentStateSingleLiveEvent.setValue(fragmentState);
     }
 }
