@@ -145,37 +145,70 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(DispatcherActivity.navigate(LoginActivity.this));
                             finish();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Login Failed"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
 
-        viewBinding.newUserMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(SignupActivity.navigate(LoginActivity.this));
-                finish();
-            }
+        viewBinding.newUserMessage.setOnClickListener(view -> {
+            startActivity(SignupActivity.navigate(LoginActivity.this));
+            finish();
         });
         signInGoogle(viewBinding);
 
         // GITHUB SIGN IN
-        viewBinding.githubFloatBtn.setOnClickListener(v -> {
+        viewBinding.githubFloatBtn.setOnClickListener(view -> {
                 OAuthProvider.Builder provider = OAuthProvider
-                    .newBuilder("github.com")
-                    .setScopes(Collections.singletonList(("user:email")
-                        )
-                    );
-
+                    .newBuilder("github.com");
                 Task<AuthResult> pendingResultTask = firebaseAuth.getPendingAuthResult();
                 if (pendingResultTask != null) {
                     pendingResultTask
                         .addOnSuccessListener(
                             authResult -> {
-                               startActivity(DispatcherActivity.navigate(this));
-                               finish();
+                                startActivity(DispatcherActivity.navigate(this));
+                                finish();
+                            }
+                        )
+                        .addOnFailureListener(
+                            e -> {
+                                Toast.makeText(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onFailure of pendingResultTask: " + e.getMessage());
+                            }
+                        );
+                } else {
+                    firebaseAuth
+                        .startActivityForSignInWithProvider(this, provider.build())
+                        .addOnSuccessListener(
+                            authResult -> {
+                                {
+                                    viewModel.onLoginComplete();
+                                    startActivity(DispatcherActivity.navigate(this));
+                                    finish();
+                                }
+                            }
+                        )
+                        .addOnFailureListener(
+                            e -> {
+                                Toast.makeText(LoginActivity.this, "Something went wrong!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onFailure of startActivityForSignInWithProvider: " + e.getMessage());
+                            }
+                        );
+                }
+            }
+        );
+
+        // Twitter/X Sign In
+        viewBinding.twitterXFloatBtn.setOnClickListener(view -> {
+                OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
+                Task<AuthResult> pendingResultTask = firebaseAuth.getPendingAuthResult();
+                if (pendingResultTask != null) {
+                    pendingResultTask
+                        .addOnSuccessListener(
+                            authResult -> {
+                                startActivity(DispatcherActivity.navigate(this));
+                                finish();
                             }
                         )
                         .addOnFailureListener(

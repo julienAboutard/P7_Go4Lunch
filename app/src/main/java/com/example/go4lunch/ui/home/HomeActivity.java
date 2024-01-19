@@ -125,6 +125,9 @@ public class HomeActivity extends AppCompatActivity {
 
                         } else if (item.getItemId() == R.id.home_navigation_item_logout) {
                             viewModel.signOut();
+                            startActivity(DispatcherActivity.navigate(HomeActivity.this));
+                            finish();
+
                         }
                         return true;
                     }

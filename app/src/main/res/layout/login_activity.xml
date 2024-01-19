@@ -218,13 +218,23 @@
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:id="@+id/github_float_btn"
-                            style="@style/GithubButton"
+                            style="@style/GoogleButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:contentDescription="@string/content_des_github_button"
                             android:src="@drawable/github_mark"
                             app:borderWidth="0sp" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/twitter_x_float_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/GoogleButton"
+                            android:layout_margin="10dp"
+                            android:contentDescription="@string/content_des_twitter_button"
+                            android:src="@drawable/twitter_mark"
+                            app:borderWidth="0sp"/>
 
                     </LinearLayout>
 
