@@ -45,6 +45,7 @@ public class DispatcherActivity extends AppCompatActivity {
                         break;
                     case ONBOARDING:
                         startActivity(OnBoardingActivity.navigate(DispatcherActivity.this));
+                        finish();
                 }
             }
         });

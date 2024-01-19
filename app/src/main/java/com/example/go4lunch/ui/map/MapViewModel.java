@@ -2,6 +2,7 @@ package com.example.go4lunch.ui.map;
 
 import android.util.Log;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -16,12 +17,14 @@ import com.example.go4lunch.data.nearbysearchrestaurants.entity.NearbySearchRest
 import com.example.go4lunch.domain.gps.IsGpsEnabledUseCase;
 import com.example.go4lunch.domain.location.GetCurrentLocationUseCase;
 import com.example.go4lunch.domain.nearbysearchresaturants.GetNearbySearchRestaurantsWrapperUseCase;
+import com.example.go4lunch.domain.workmate.GetAttendantsGoingToSameRestaurantAsUserUseCase;
 import com.example.go4lunch.ui.map.marker.RestaurantMarkerViewStateItem;
 import com.example.go4lunch.ui.utils.Event;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -44,19 +47,22 @@ public class MapViewModel extends ViewModel {
     public MapViewModel(
         @NonNull IsGpsEnabledUseCase isGpsEnabledUseCase,
         @NonNull GetCurrentLocationUseCase getCurrentLocationUseCase,
-        @NonNull GetNearbySearchRestaurantsWrapperUseCase getNearbySearchRestaurantsWrapperUseCase
+        @NonNull GetNearbySearchRestaurantsWrapperUseCase getNearbySearchRestaurantsWrapperUseCase,
+        @NonNull GetAttendantsGoingToSameRestaurantAsUserUseCase getAttendantsGoingToSameRestaurantAsUserUseCase
     ) {
         this.getCurrentLocationUseCase = getCurrentLocationUseCase;
 
         LiveData<NearbySearchRestaurantsWrapper> nearbySearchRestaurantsWrapperLiveData = getNearbySearchRestaurantsWrapperUseCase.invoke();
         LiveData<LocationEntityWrapper> locationEntityWrapperLiveData = getCurrentLocationUseCase.invoke();
         LiveData<Boolean> isGpsEnabledLiveData = isGpsEnabledUseCase.invoke();
+        LiveData<Map<String, Integer>> restaurantIdWithAttendantsMapLiveData = getAttendantsGoingToSameRestaurantAsUserUseCase.invoke();
 
         mapViewStateMediatorLiveData.addSource(isGpsEnabledLiveData, isGpsEnabled -> {
             combine(
                 isGpsEnabled,
                 locationEntityWrapperLiveData.getValue(),
-                nearbySearchRestaurantsWrapperLiveData.getValue()
+                nearbySearchRestaurantsWrapperLiveData.getValue(),
+                restaurantIdWithAttendantsMapLiveData.getValue()
             );
         });
 
@@ -64,7 +70,8 @@ public class MapViewModel extends ViewModel {
             combine(
                 isGpsEnabledLiveData.getValue(),
                 locationEntityWrapper,
-                nearbySearchRestaurantsWrapperLiveData.getValue()
+                nearbySearchRestaurantsWrapperLiveData.getValue(),
+                restaurantIdWithAttendantsMapLiveData.getValue()
             );
         });
 
@@ -72,9 +79,20 @@ public class MapViewModel extends ViewModel {
             combine(
                 isGpsEnabledLiveData.getValue(),
                 locationEntityWrapperLiveData.getValue(),
-                nearbySearchRestaurantsWrapper
+                nearbySearchRestaurantsWrapper,
+                restaurantIdWithAttendantsMapLiveData.getValue()
             );
         });
+
+        mapViewStateMediatorLiveData.addSource(restaurantIdWithAttendantsMapLiveData, restaurantIdToAttendantsCount -> {
+                combine(
+                    isGpsEnabledLiveData.getValue(),
+                    locationEntityWrapperLiveData.getValue(),
+                    nearbySearchRestaurantsWrapperLiveData.getValue(),
+                    restaurantIdToAttendantsCount
+                );
+            }
+        );
     }
 
     public LiveData<Event<Integer>> getNoRestaurantFoundEvent() {
@@ -96,7 +114,8 @@ public class MapViewModel extends ViewModel {
     private void combine(
         @Nullable Boolean isGpsEnabled,
         @Nullable LocationEntityWrapper locationEntityWrapper,
-        @Nullable NearbySearchRestaurantsWrapper nearbySearchRestaurantsWrapper
+        @Nullable NearbySearchRestaurantsWrapper nearbySearchRestaurantsWrapper,
+        @Nullable Map<String, Integer> restaurantIdToAttendantsCount
     ) {
         if (isGpsEnabled == null ||
             nearbySearchRestaurantsWrapper == null ||
@@ -118,7 +137,8 @@ public class MapViewModel extends ViewModel {
                                 new LatLng(
                                     nearbySearchRestaurantsEntity.getLocationEntity().getLatitude(),
                                     nearbySearchRestaurantsEntity.getLocationEntity().getLongitude()
-                                )
+                                ),
+                                isRestaurantAttended(restaurantIdToAttendantsCount, nearbySearchRestaurantsEntity.getPlaceId())
                             )
                         );
                 }
@@ -133,4 +153,15 @@ public class MapViewModel extends ViewModel {
         }
     }
 
+    @ColorRes
+    private int isRestaurantAttended(
+        @Nullable Map<String, Integer> restaurantIdToAttendantsCount,
+        @NonNull String placeId
+    ) {
+        if (restaurantIdToAttendantsCount != null && restaurantIdToAttendantsCount.containsKey(placeId)) {
+            return R.color.ok_green_pale;
+        } else {
+            return R.color.color_secondary;
+        }
+    }
 }

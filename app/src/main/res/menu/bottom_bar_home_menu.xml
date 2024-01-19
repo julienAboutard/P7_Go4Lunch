@@ -6,20 +6,16 @@
         android:id="@+id/bottom_bar_map"
         android:icon="@drawable/map_24"
         app:showAsAction="ifRoom"
-        android:title="Item" />
+        android:title="@string/bottom_bar_map_item" />
     <item
         android:id="@+id/bottom_bar_restaurant_list"
         android:icon="@drawable/restaurant_24"
         app:showAsAction="ifRoom"
-        android:title="Item" />
+        android:title="@string/bottom_bar_list_item" />
     <item
         android:id="@+id/bottom_bar_workmate_list"
         android:icon="@drawable/group_24"
         app:showAsAction="ifRoom"
-        android:title="Item" />
-    <item
-        android:id="@+id/bottom_bar_chat_list"
-        android:icon="@drawable/chat_24px"
-        app:showAsAction="ifRoom"
-        android:title="Item" />
+        android:title="@string/bottom_bar_workmate_item" />
+
 </menu>

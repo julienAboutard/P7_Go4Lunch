@@ -67,9 +67,6 @@ public class RestaurantListViewModel extends ViewModel {
         LiveData<NearbySearchRestaurantsWrapper> nearbySearchRestaurantsWrapperLiveData = getNearbySearchRestaurantsWrapperUseCase.invoke();
         LiveData<Map<String, Integer>> attendantsByRestaurantIdsLiveData = getAttendantsGoingToSameRestaurantAsUserUseCase.invoke();
 
-        Log.d("controle1", "RestaurantListViewModel: "+locationLiveData.getValue()+" "+isGpsEnabledMutableLiveData.getValue()+
-            " "+hasGpsPermissionLiveData.getValue()+" "+nearbySearchRestaurantsWrapperLiveData.getValue()+" "+resources);
-
         restaurantListMediatorLiveData.addSource(hasGpsPermissionLiveData, hasGpsPermission ->
             combine(
                 hasGpsPermission,
@@ -132,7 +129,6 @@ public class RestaurantListViewModel extends ViewModel {
             return;
         }
         List<RestaurantListViewStateItem> result = new ArrayList<>();
-
         if (hasGpsPermission != null && !hasGpsPermission) {
             result.add(
                 new RestaurantListViewStateItem.RestaurantListErrorItem(
@@ -198,7 +194,6 @@ public class RestaurantListViewModel extends ViewModel {
                             convertFiveToThreeRating(nearbySearchEntity.getRating())
                         )
                     );
-                    break;
                 }
             }
         } else if (nearbySearchRestaurantsWrapper instanceof NearbySearchRestaurantsWrapper.RequestError) {

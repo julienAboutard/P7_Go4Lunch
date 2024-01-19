@@ -1,5 +1,7 @@
 package com.example.go4lunch.data.di;
 
+import com.example.go4lunch.data.detailsretaurant.DetailsRestaurantRepository;
+import com.example.go4lunch.data.detailsretaurant.DetailsRestaurantRepositoryGooglePlaces;
 import com.example.go4lunch.data.firebaseauth.AuthRepository;
 import com.example.go4lunch.data.firebaseauth.FirebaseAuthRepository;
 import com.example.go4lunch.data.gps.location.GpsLocationRepository;
@@ -47,6 +49,10 @@ public abstract class DataBindingModule {
     @Binds
     @Singleton
     public abstract UserRepository bindsUserRepository(FirestoreUserRepository firestoreUserRepository);
+
+    @Binds
+    @Singleton
+    public abstract DetailsRestaurantRepository bindsDetailsRestaurantRepository(DetailsRestaurantRepositoryGooglePlaces detailsRestaurantRepositoryGooglePlaces);
 
     @Binds
     @Singleton

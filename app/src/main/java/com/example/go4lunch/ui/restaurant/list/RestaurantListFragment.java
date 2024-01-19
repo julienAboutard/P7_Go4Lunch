@@ -7,17 +7,19 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.databinding.RestaurantListFragmentBinding;
+import com.example.go4lunch.ui.restaurant.detail.RestaurantDetailsActivity;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class RestaurantListFragment extends SupportMapFragment {
+public class RestaurantListFragment extends Fragment {
 
     private RestaurantListFragmentBinding binding;
     private RestaurantListViewModel viewModel;
@@ -49,7 +51,7 @@ public class RestaurantListFragment extends SupportMapFragment {
             public void onRestaurantClicked(
                 @NonNull String restaurantId
             ) {
-
+                startActivity(RestaurantDetailsActivity.navigate(requireContext(), restaurantId));
             }
         }
         );

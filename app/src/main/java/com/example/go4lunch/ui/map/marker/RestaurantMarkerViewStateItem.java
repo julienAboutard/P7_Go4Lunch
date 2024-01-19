@@ -1,5 +1,6 @@
 package com.example.go4lunch.ui.map.marker;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -17,10 +18,14 @@ public class RestaurantMarkerViewStateItem {
     @NonNull
     private final LatLng latLng;
 
-    public RestaurantMarkerViewStateItem(@NonNull String id, @NonNull String name, @NonNull LatLng latLng) {
+    @ColorRes
+    private final int colorAttendance;
+
+    public RestaurantMarkerViewStateItem(@NonNull String id, @NonNull String name, @NonNull LatLng latLng, int colorAttendance) {
         this.id = id;
         this.name = name;
         this.latLng = latLng;
+        this.colorAttendance = colorAttendance;
     }
 
     @NonNull
@@ -38,17 +43,23 @@ public class RestaurantMarkerViewStateItem {
         return latLng;
     }
 
+    @ColorRes
+    public int getColorAttendance() {
+        return colorAttendance;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RestaurantMarkerViewStateItem that = (RestaurantMarkerViewStateItem) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(latLng, that.latLng);
+        return colorAttendance == that.colorAttendance && Objects.equals(id, that.id) &&
+            Objects.equals(name, that.name) && Objects.equals(latLng, that.latLng);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, latLng);
+        return Objects.hash(id, name, latLng, colorAttendance);
     }
 
     @Override
@@ -57,6 +68,7 @@ public class RestaurantMarkerViewStateItem {
             "id='" + id + '\'' +
             ", name='" + name + '\'' +
             ", latLng=" + latLng +
+            ", colorAttendance=" + colorAttendance +
             '}';
     }
 }

@@ -60,33 +60,22 @@ public class LoginActivity extends AppCompatActivity {
         new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                Log.d(TAG, "onActivityResult(1) called with: result = [" + result + "]");
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    Log.d(TAG, "onActivityResult(2) called with: result = [" + result + "]");
-                    // There are no request codes
                     Intent data = result.getData();
                     Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
                     if (signInAccountTask.isSuccessful()) {
-                        Log.d(TAG, "onActivityResult(3) called with: result = [" + result + "]");
                         try {
                             GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
-                            Log.d(TAG, "onActivityResult(4) called with: result = [" + result + "]");
-
                             if (googleSignInAccount != null) {
-                                Log.d(TAG, "onActivityResult(5) called with: result = [" + result + "]");
-
                                 AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
-                                // Check credential
                                 FirebaseAuth.getInstance().signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-                                        Log.d(TAG, "onActivityResult(6) called with: result = [" + result + "]");
 
                                         if (task.isSuccessful()) {
-                                            Log.d(TAG, "onActivityResult(7) called with: result = [" + result + "]");
-
                                             viewModel.onLoginComplete();
                                             startActivity(DispatcherActivity.navigate(LoginActivity.this));
+                                            finish();
                                             Log.i(TAG, "Firebase auth google successful");
                                         } else {
                                             Log.e("Firebase auth error: ", task.getException().getMessage());
@@ -153,8 +142,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-
                             startActivity(DispatcherActivity.navigate(LoginActivity.this));
                             finish();
                         } else {
@@ -169,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(SignupActivity.navigate(LoginActivity.this));
+                finish();
             }
         });
         signInGoogle(viewBinding);
@@ -183,11 +171,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 Task<AuthResult> pendingResultTask = firebaseAuth.getPendingAuthResult();
                 if (pendingResultTask != null) {
-                    // There's something already here! Finish the sign-in for your user.
                     pendingResultTask
                         .addOnSuccessListener(
                             authResult -> {
                                startActivity(DispatcherActivity.navigate(this));
+                               finish();
                             }
                         )
                         .addOnFailureListener(
@@ -202,12 +190,9 @@ public class LoginActivity extends AppCompatActivity {
                         .addOnSuccessListener(
                             authResult -> {
                                 {
-                                    if (authResult.getAdditionalUserInfo() != null && authResult.getAdditionalUserInfo().getProfile() != null && authResult.getAdditionalUserInfo().getProfile().get("email") != null) {
-                                        Log.d(TAG, "EMILIE " + authResult.getAdditionalUserInfo().getProfile().get("email"));
-                                    }
-
                                     viewModel.onLoginComplete();
                                     startActivity(DispatcherActivity.navigate(this));
+                                    finish();
                                 }
                             }
                         )

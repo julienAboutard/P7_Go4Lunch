@@ -1,6 +1,6 @@
 package com.example.go4lunch.data.api;
 
-import com.example.go4lunch.data.detailsretaurant.DetailsRestaurantResponse;
+import com.example.go4lunch.data.detailsretaurant.response.DetailsRestaurantResponse;
 import com.example.go4lunch.data.nearbysearchrestaurants.response.NearbySearchResponse;
 
 import retrofit2.Call;

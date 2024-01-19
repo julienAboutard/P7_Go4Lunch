@@ -1,6 +1,8 @@
 package com.example.go4lunch.ui.home;
 
+import static com.example.go4lunch.ui.home.HomeDisplayScreen.LIST_FRAGMENT;
 import static com.example.go4lunch.ui.home.HomeDisplayScreen.MAP_FRAGMENT;
+import static com.example.go4lunch.ui.home.HomeDisplayScreen.WORKMATES_FRAGMENT;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -10,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +32,7 @@ import com.example.go4lunch.databinding.HomeActivityBinding;
 import com.example.go4lunch.databinding.HomeNavigationHeaderBinding;
 import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
 import com.example.go4lunch.ui.map.MapFragment;
+import com.example.go4lunch.ui.restaurant.detail.RestaurantDetailsActivity;
 import com.example.go4lunch.ui.restaurant.list.RestaurantListFragment;
 import com.example.go4lunch.ui.workmatelist.WorkmateListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -110,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
                     item -> {
                         if (item.getItemId() == R.id.home_navigation_item_lunch) {
                             if (userWithRestaurantChoice != null) {
-
+                                startActivity(RestaurantDetailsActivity.navigate(this, userWithRestaurantChoice.getAttendingRestaurantId()));
                             } else {
                                 Toast.makeText(
                                         this, R.string.toast_message_user_no_restaurant_chosen,
@@ -152,7 +156,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         );
 
-        /*viewModel.getHomeDisplayScreenLiveEvent().observe(this, homeDisplayScreenEvent -> {
+        viewModel.getHomeDisplayScreenLiveEvent().observe(this, homeDisplayScreenEvent -> {
             HomeDisplayScreen homeDisplayScreen = homeDisplayScreenEvent.getContentIfNotHandled();
 
             if (homeDisplayScreen != null) {
@@ -170,28 +174,12 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
             }
-        });*/
-
-        viewModel.getFragmentStateSingleLiveEvent().observe(this, fragmentState -> {
-                switch (fragmentState) {
-                    case MAP_FRAGMENT:
-                        changeFragment(MapFragment.newInstance());
-                        break;
-                    case LIST_FRAGMENT:
-                        changeFragment(RestaurantListFragment.newInstance());
-                        break;
-                    case WORKMATES_FRAGMENT:
-                        changeFragment(WorkmateListFragment.newInstance());
-                        break;
-                    case CHAT_FRAGMENT:
-                        break;
-                }
-            }
-        );
+        });
 
         viewModel.onUserLogged().observe(this, loggingState -> {
                 if (!loggingState) {
                     startActivity(DispatcherActivity.navigate(HomeActivity.this));
+                    finish();
                 }
             }
         );
@@ -199,22 +187,25 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initBottomNavigator() {
 
-        BottomNavigationView bottomNavigationView = binding.homeBottomBar;
-        bottomNavigationView.setSelectedItemId(R.id.bottom_bar_map);
+        binding.homeBottomBar.setSelectedItemId(R.id.bottom_bar_map);
 
         binding.homeBottomBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.bottom_bar_map) {
                     viewModel.onChangeFragmentView(MAP_FRAGMENT);
+                    binding.homeToolbarSearchView.setVisibility(View.VISIBLE);
+                    binding.homeSearchviewRecyclerview.setVisibility(View.VISIBLE);
                 } else if (item.getItemId() == R.id.bottom_bar_restaurant_list) {
-                    viewModel.onChangeFragmentView(HomeDisplayScreen.LIST_FRAGMENT);
+                    viewModel.onChangeFragmentView(LIST_FRAGMENT);
+                    binding.homeToolbarSearchView.setVisibility(View.VISIBLE);
+                    binding.homeSearchviewRecyclerview.setVisibility(View.VISIBLE);
                 } else if (item.getItemId() == R.id.bottom_bar_workmate_list) {
-                    viewModel.onChangeFragmentView(HomeDisplayScreen.WORKMATES_FRAGMENT);
-                } else if (item.getItemId() == R.id.bottom_bar_chat_list) {
-                    viewModel.onChangeFragmentView(HomeDisplayScreen.CHAT_FRAGMENT);
+                    viewModel.onChangeFragmentView(WORKMATES_FRAGMENT);
+                    binding.homeToolbarSearchView.setVisibility(View.GONE);
+                    binding.homeSearchviewRecyclerview.setVisibility(View.GONE);
                 }
-                return false;
+                return true;
             }
         });
     }

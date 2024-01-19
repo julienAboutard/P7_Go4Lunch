@@ -97,6 +97,7 @@ public class SignupActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             viewModel.onLoginComplete();
                             startActivity(DispatcherActivity.navigate(SignupActivity.this));
+                            finish();
                         } else {
                             Toast.makeText(SignupActivity.this, "" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }

@@ -31,7 +31,7 @@ public class SignupViewModel extends ViewModel {
 
     private String signupName;
 
-    private final MutableLiveData<Event<Integer>> displayToastSingleLiveEvent = new MutableLiveData<>();
+    private final MutableLiveData<Event<Integer>> displayToastEvent = new MutableLiveData<>();
 
     @Inject
     public SignupViewModel(
@@ -52,13 +52,13 @@ public class SignupViewModel extends ViewModel {
         signupName = name;
     }
 
-    public LiveData<Event<Integer>> getDisplayToastSingleLiveEvent() {
-        return displayToastSingleLiveEvent;
+    public LiveData<Event<Integer>> getDisplayToastEvent() {
+        return displayToastEvent;
     }
 
     public Task<AuthResult> onSignupButton() {
         if (signupMail == null || signupPassword == null || signupName == null) {
-            displayToastSingleLiveEvent.setValue(new Event<>(R.string.signup_error_message));
+            displayToastEvent.setValue(new Event<>(R.string.signup_error_message));
             return null;
         } else {
             return signupUserUseCase.invoke(signupMail, signupPassword, signupName);

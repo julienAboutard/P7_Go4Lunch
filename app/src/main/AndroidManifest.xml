@@ -45,9 +45,13 @@
         <activity android:name=".ui.onboarding.OnBoardingActivity"
             android:exported="false"
             />
+        <activity android:name=".ui.restaurant.detail.RestaurantDetailsActivity"
+            android:exported="false"
+            />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${API_KEY}" />
+            android:value="${API_KEY}"
+            />
 
     </application>
 

@@ -24,6 +24,10 @@
     <string name="home_navigation_logout">LOGOUT</string>
     <string name="toast_message_user_no_restaurant_chosen">You did not chose where to lunch yet!</string>
 
+    <string name="bottom_bar_map_item">Map</string>
+    <string name="bottom_bar_list_item">Restaurants List</string>
+    <string name="bottom_bar_workmate_item">Workmates List</string>
+
     <string name="onboarding_privacy_message">Don\'t worry, we value your privacy \nand won\'t share your data!</string>
     <string name="onboarding_decline_button">No, thank you</string>
     <string name="onboarding_allow_button">Grant permission</string>
@@ -49,6 +53,21 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="detail_button_call">call</string>
+    <string name="detail_button_like">like</string>
+    <string name="detail_button_website">website</string>
+    <string name="list_workmate_name_joining">%s is joining!</string>
+    <string name="list_workmate_name_and_attenting_restaurant">%1$s is eating at %2$s</string>
+    <string name="detail_workmate_joining">%s is joining!</string>
+    <string name="list_workmate_not_attending">%s has not chosen yet</string>
+    <string name="detail_missing_information">Missing information</string>
+    <string name="restaurant_item_food_image_a11y">Food image</string>
+    <string name="detail_restaurant_chose_fab">Go?</string>
+    <string name="detail_restaurant_chosen_fab">Go!</string>
+    <string name="detail_restaurant_unchosen_fab">Go?</string>
+    <string name="list_avatar_workmate_a11y">Picture of %s</string>
+    <string name="no_workmate_text">No workmate is going to eat\n at this restaurant so far!</string>
 
     <string name="content_des_google_button">Google button for login with google account</string>
     <string name="content_des_github_button">Github button for login with github account</string>
