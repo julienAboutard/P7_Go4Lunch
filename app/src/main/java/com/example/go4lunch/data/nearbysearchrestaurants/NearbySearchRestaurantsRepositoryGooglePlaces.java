@@ -64,7 +64,6 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                     new Callback<NearbySearchResponse>() {
                         @Override
                         public void onResponse(Call<NearbySearchResponse> call, Response<NearbySearchResponse> response) {
-                            Log.d("controle4", "onResponse: "+response.body().getStatus());
                             if (response.isSuccessful() &&
                                 response.body() != null &&
                                 response.body().getStatus() != null &&
@@ -76,7 +75,6 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                                 );
                                 if (nearbySearchRestaurantsEntityList != null) {
                                     nearbySearchHashMap.put(userLocation, nearbySearchRestaurantsEntityList);
-                                    Log.d("controle1", "onResponse: nearbylist "+nearbySearchRestaurantsEntityList);
                                     resultMutableLiveData.setValue(
                                         new NearbySearchRestaurantsWrapper.Success(
                                             nearbySearchRestaurantsEntityList
@@ -117,8 +115,6 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
         List<NearbySearchRestaurantsEntity> results = new ArrayList<>();
 
         if (response != null && response.getResults() != null) {
-            Log.d("controle3", "mapToNearbySearchEntityList: response "+response);
-            Log.d("controle3", "mapToNearbySearchEntityList: result "+response.getResults());
             for (ResultsItem result : response.getResults()) {
                 String placeId = result.getPlaceId();
                 String name = result.getName();
@@ -143,11 +139,9 @@ public class NearbySearchRestaurantsRepositoryGooglePlaces implements NearbySear
                 LocationEntity locationEntity;
                 Integer distance;
                 if (result.getGeometry() != null && result.getGeometry().getLocation() != null) {
-                    Log.d("controle2", "mapToNearbySearchEntityList: result.getgeo "+result.getGeometry());
                     Double latitude = result.getGeometry().getLocation().getLat();
                     Double longitude = result.getGeometry().getLocation().getLng();
                     locationEntity = new LocationEntity(latitude, longitude);
-                    Log.d("controle2", "mapToNearbySearchEntityList: locattionEntity "+locationEntity);
                     distance = getDistanceFromUserLocation(locationEntity, userLocation);
                 } else {
                     locationEntity = null;

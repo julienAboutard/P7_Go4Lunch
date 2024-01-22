@@ -1,5 +1,6 @@
 package com.example.go4lunch.data.api;
 
+import com.example.go4lunch.data.autocomplete.response.AutocompletePredictionResponse;
 import com.example.go4lunch.data.detailsretaurant.response.DetailsRestaurantResponse;
 import com.example.go4lunch.data.nearbysearchrestaurants.response.NearbySearchResponse;
 
@@ -23,5 +24,12 @@ public interface GooglePlacesApi {
         @Query("key") String apiKey
     );
 
-
+    @GET("autocomplete/json")
+    Call<AutocompletePredictionResponse> getPredictions(
+        @Query("input") String input,
+        @Query("location") String location,
+        @Query("radius") int radius,
+        @Query("types") String types,
+        @Query("key") String apiKey
+    );
 }

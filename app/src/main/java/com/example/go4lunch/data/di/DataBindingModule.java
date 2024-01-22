@@ -1,5 +1,7 @@
 package com.example.go4lunch.data.di;
 
+import com.example.go4lunch.data.autocomplete.PredictionsRepository;
+import com.example.go4lunch.data.autocomplete.PredictionsRepositoryAutocomplete;
 import com.example.go4lunch.data.detailsretaurant.DetailsRestaurantRepository;
 import com.example.go4lunch.data.detailsretaurant.DetailsRestaurantRepositoryGooglePlaces;
 import com.example.go4lunch.data.firebaseauth.AuthRepository;
@@ -59,4 +61,8 @@ public abstract class DataBindingModule {
     public abstract FavoriteRestaurantRepository bindsFavoriteRestaurantRepository(
         FirestoreFavoriteRestaurantRepository firestoreFavoriteRestaurantRepository
     );
+
+    @Binds
+    @Singleton
+    public abstract PredictionsRepository bindSearchViewQueryRepository(PredictionsRepositoryAutocomplete searchViewQueryRepositoryImplementation);
 }

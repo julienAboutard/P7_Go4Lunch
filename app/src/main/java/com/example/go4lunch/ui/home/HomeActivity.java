@@ -6,6 +6,7 @@ import static com.example.go4lunch.ui.home.HomeDisplayScreen.WORKMATES_FRAGMENT;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,15 +14,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -31,6 +36,7 @@ import com.example.go4lunch.data.firebaseauth.entity.LoggedUserEntity;
 import com.example.go4lunch.databinding.HomeActivityBinding;
 import com.example.go4lunch.databinding.HomeNavigationHeaderBinding;
 import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
+import com.example.go4lunch.ui.home.searchview.AutocompleteListAdapter;
 import com.example.go4lunch.ui.map.MapFragment;
 import com.example.go4lunch.ui.restaurant.detail.RestaurantDetailsActivity;
 import com.example.go4lunch.ui.restaurant.list.RestaurantListFragment;
@@ -69,6 +75,8 @@ public class HomeActivity extends AppCompatActivity {
         setFragmentObserver();
         initNavigationDrawer();
         initBottomNavigator();
+        initAutocompleteSearchView();
+        getSearchViewQuery();
     }
 
     @Override
@@ -218,5 +226,89 @@ public class HomeActivity extends AppCompatActivity {
             .beginTransaction()
             .replace(R.id.home_frame_layout, fragment)
             .commit();
+    }
+
+    private void initAutocompleteSearchView() {
+        AutocompleteListAdapter adapter = new AutocompleteListAdapter((placeId, restaurantName) -> {
+            // Handle suggestion click here.
+            Log.d("controle", "onPredictionClicked() called with placeId: " + placeId);
+
+            // Remove the onQueryTextListener temporarily to avoid unnecessary Autocomplete call
+            binding.homeToolbarSearchView.setOnQueryTextListener(null);
+            viewModel.onPredictionClicked(placeId);
+            binding.homeToolbarSearchView.clearFocus();
+            binding.homeToolbarSearchView.setQuery(restaurantName, false);
+
+            // Re-setting the onQueryTextListener.
+            binding.homeToolbarSearchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        viewModel.onQueryChanged(newText);
+                        return true;
+                    }
+                }
+            );
+            hideSoftKeyboard();
+        }
+        );
+        binding.homeSearchviewRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.homeSearchviewRecyclerview.getContext(), DividerItemDecoration.VERTICAL);
+        binding.homeSearchviewRecyclerview.addItemDecoration(dividerItemDecoration);
+        binding.homeSearchviewRecyclerview.setAdapter(adapter);
+
+        viewModel.getPredictionsLiveData().observe(this, predictionViewStateList -> {
+                adapter.submitList(predictionViewStateList);
+            }
+        );
+    }
+
+    private void getSearchViewQuery() {
+        binding.homeToolbarSearchView.setOnQueryTextListener(
+            new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    viewModel.onQueryChanged(newText);
+                    return true;
+                }
+            }
+        );
+
+        binding.homeToolbarSearchView.setOnQueryTextFocusChangeListener(
+            (v, hasFocus) -> {
+                if (!hasFocus) {
+                    binding.homeSearchviewRecyclerview.setVisibility(View.GONE);
+                } else {
+                    binding.homeSearchviewRecyclerview.setVisibility(View.VISIBLE);
+                }
+            }
+        );
+
+        binding.homeToolbarSearchView.setOnCloseListener(() -> {
+                binding.homeToolbarSearchView.clearFocus();
+                binding.homeToolbarSearchView.onActionViewCollapsed();
+                viewModel.onPredictionPlaceIdReset();
+                hideSoftKeyboard();
+                return true;
+            }
+        );
+    }
+
+    private void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

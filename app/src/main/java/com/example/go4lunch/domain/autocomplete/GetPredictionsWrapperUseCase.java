@@ -1,54 +1,54 @@
-package com.example.go4lunch.domain.nearbysearchresaturants;
-
-import android.util.Log;
+package com.example.go4lunch.domain.autocomplete;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.example.go4lunch.data.autocomplete.PredictionsRepository;
+import com.example.go4lunch.data.autocomplete.entity.PredictionEntityWrapper;
 import com.example.go4lunch.data.gps.entity.LocationEntity;
 import com.example.go4lunch.data.gps.entity.LocationEntityWrapper;
-import com.example.go4lunch.data.nearbysearchrestaurants.NearbySearchRestaurantsRepository;
 import com.example.go4lunch.data.nearbysearchrestaurants.entity.NearbySearchRestaurantsWrapper;
 import com.example.go4lunch.domain.location.GetCurrentLocationUseCase;
 
 import javax.inject.Inject;
 
-public class GetNearbySearchRestaurantsWrapperUseCase {
+public class GetPredictionsWrapperUseCase {
 
     private static final int RADIUS = 1_000;
-    private static final String TYPE = "restaurant";
+    private static final String TYPES = "restaurant";
 
     @NonNull
-    private final NearbySearchRestaurantsRepository nearbySearchRestaurantsRepository;
+    private final PredictionsRepository repository;
 
     @NonNull
     private final GetCurrentLocationUseCase getCurrentLocationUseCase;
 
     @Inject
-    public GetNearbySearchRestaurantsWrapperUseCase(
-        @NonNull NearbySearchRestaurantsRepository nearbySearchRestaurantsRepository,
+    public GetPredictionsWrapperUseCase(
+        @NonNull PredictionsRepository repository,
         @NonNull GetCurrentLocationUseCase getCurrentLocationUseCase
     ) {
-        this.nearbySearchRestaurantsRepository = nearbySearchRestaurantsRepository;
+        this.repository = repository;
         this.getCurrentLocationUseCase = getCurrentLocationUseCase;
     }
 
-    public LiveData<NearbySearchRestaurantsWrapper> invoke() {
+    public LiveData<PredictionEntityWrapper> invoke(@NonNull String query) {
         LiveData<LocationEntityWrapper> locationEntityWrapperLiveData = getCurrentLocationUseCase.invoke();
         return Transformations.switchMap(locationEntityWrapperLiveData, locationEntityWrapper -> {
                 if (locationEntityWrapper instanceof LocationEntityWrapper.GpsProviderEnabled) {
                     LocationEntity location = ((LocationEntityWrapper.GpsProviderEnabled) locationEntityWrapper).locationEntity;
-                    return nearbySearchRestaurantsRepository.getNearbyRestaurants(
+                    return repository.getPredictionsLiveData(
+                        query,
                         location.getLatitude(),
                         location.getLongitude(),
-                        TYPE,
-                        RADIUS
+                        RADIUS,
+                        TYPES
                     );
                 } else if (locationEntityWrapper instanceof LocationEntityWrapper.GpsProviderDisabled) {
                     return new MutableLiveData<>(
-                        new NearbySearchRestaurantsWrapper.RequestError(
+                        new PredictionEntityWrapper.RequestError(
                             new Exception("GpsProviderDisabled")
                         )
                     );

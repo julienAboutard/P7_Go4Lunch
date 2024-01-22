@@ -9,18 +9,28 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.example.go4lunch.data.autocomplete.entity.PredictionEntity;
+import com.example.go4lunch.data.autocomplete.entity.PredictionEntityWrapper;
 import com.example.go4lunch.data.firebaseauth.entity.LoggedUserEntity;
 import com.example.go4lunch.data.user.entity.UserEntity;
 import com.example.go4lunch.data.user.entity.UserWithRestaurantChoiceEntity;
 import com.example.go4lunch.domain.authentification.GetCurrentLoggedUserUseCase;
 import com.example.go4lunch.domain.authentification.IsUserLoggedInLiveDataUseCase;
 import com.example.go4lunch.domain.authentification.LogoutUserUseCase;
+import com.example.go4lunch.domain.autocomplete.GetPredictionsWrapperUseCase;
+import com.example.go4lunch.domain.autocomplete.ResetPredictionPlaceIdUseCase;
+import com.example.go4lunch.domain.autocomplete.SavePredictionPlaceIdUseCase;
 import com.example.go4lunch.domain.chosedrestaurant.GetUserWithRestaurantChoiceEntityLiveDataUseCase;
 import com.example.go4lunch.domain.gps.IsGpsEnabledUseCase;
 import com.example.go4lunch.domain.location.StartLocationRequestUseCase;
 import com.example.go4lunch.domain.user.GetUserEntityUseCase;
+import com.example.go4lunch.ui.home.searchview.PredictionViewState;
 import com.example.go4lunch.ui.utils.Event;
 import com.example.go4lunch.ui.utils.SingleLiveEvent;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -48,7 +58,19 @@ public class HomeViewModel extends ViewModel {
     private final GetUserEntityUseCase getUserEntityUseCase;
 
     @NonNull
+    private final SavePredictionPlaceIdUseCase savePredictionPlaceIdUseCase;
+
+    @NonNull
+    private final ResetPredictionPlaceIdUseCase resetPredictionPlaceIdUseCase;
+
+    @NonNull
     private final MutableLiveData<Event<HomeDisplayScreen>> homeDisplayScreenMutableLiveEvent = new MutableLiveData<>();
+
+    @NonNull
+    private final LiveData<PredictionEntityWrapper> predictionsLiveData;
+
+    @NonNull
+    private final MutableLiveData<String> userQueryMutableLiveData;
 
     @Inject
     public HomeViewModel(
@@ -57,7 +79,10 @@ public class HomeViewModel extends ViewModel {
         @NonNull StartLocationRequestUseCase startLocationRequestUseCase,
         @NonNull IsUserLoggedInLiveDataUseCase isUserLoggedInLiveDataUseCase,
         @NonNull GetUserWithRestaurantChoiceEntityLiveDataUseCase getUserWithRestaurantChoiceEntityLiveDataUseCase,
-        @NonNull GetUserEntityUseCase getUserEntityUseCase
+        @NonNull GetUserEntityUseCase getUserEntityUseCase,
+        @NonNull GetPredictionsWrapperUseCase getPredictionsWrapperUseCase,
+        @NonNull SavePredictionPlaceIdUseCase savePredictionPlaceIdUseCase,
+        @NonNull ResetPredictionPlaceIdUseCase resetPredictionPlaceIdUseCase
         ) {
         this.logoutUserUseCase = logoutUserUseCase;
         this.isGpsEnabledUseCase = isGpsEnabledUseCase;
@@ -65,7 +90,22 @@ public class HomeViewModel extends ViewModel {
         this.isUserLoggedInLiveDataUseCase = isUserLoggedInLiveDataUseCase;
         this.getUserWithRestaurantChoiceEntityLiveDataUseCase = getUserWithRestaurantChoiceEntityLiveDataUseCase;
         this.getUserEntityUseCase = getUserEntityUseCase;
+        this.savePredictionPlaceIdUseCase = savePredictionPlaceIdUseCase;
+        this.resetPredictionPlaceIdUseCase = resetPredictionPlaceIdUseCase;
+
         homeDisplayScreenMutableLiveEvent.setValue(new Event<>(HomeDisplayScreen.values()[0]));
+
+        userQueryMutableLiveData = new MutableLiveData<>();
+
+        predictionsLiveData = Transformations.switchMap(
+            userQueryMutableLiveData, userQuery -> {
+                if (userQuery == null || userQuery.isEmpty() || userQuery.length() < 3) {
+                    return null;
+                } else {
+                    return getPredictionsWrapperUseCase.invoke(userQuery);
+                }
+            }
+        );
     }
 
     @NonNull
@@ -87,6 +127,28 @@ public class HomeViewModel extends ViewModel {
                     )
                 );
                 return loggedUserEntityMutableLiveData;
+            }
+        );
+    }
+
+    public LiveData<List<PredictionViewState>> getPredictionsLiveData() {
+        return Transformations.switchMap(predictionsLiveData, predictions -> {
+                MutableLiveData<List<PredictionViewState>> predictionViewStateMutableLiveData = new MutableLiveData<>();
+                List<PredictionViewState> predictionViewStateList = new ArrayList<>();
+                if (predictions instanceof PredictionEntityWrapper.Success) {
+                    for (PredictionEntity prediction : ((PredictionEntityWrapper.Success) predictions).getPredictionEntityList()) {
+                        predictionViewStateList.add(
+                            new PredictionViewState(
+                                prediction.getPlaceId(),
+                                prediction.getRestaurantName()
+                            )
+                        );
+                    }
+                } else {
+                    predictionViewStateMutableLiveData.setValue(Collections.emptyList());
+                }
+                predictionViewStateMutableLiveData.setValue(predictionViewStateList);
+                return predictionViewStateMutableLiveData;
             }
         );
     }
@@ -122,5 +184,24 @@ public class HomeViewModel extends ViewModel {
 
     public void onChangeFragmentView(@NonNull HomeDisplayScreen homeDisplayScreen) {
         homeDisplayScreenMutableLiveEvent.setValue(new Event<>(homeDisplayScreen));
+    }
+
+    public void onQueryChanged(String query) {
+        if (query == null || query.isEmpty()) {
+            resetPredictionPlaceIdUseCase.invoke();
+            userQueryMutableLiveData.setValue(null);
+            return;
+        }
+        userQueryMutableLiveData.setValue(query);
+    }
+
+    public void onPredictionClicked(String placeId) {
+        savePredictionPlaceIdUseCase.invoke(placeId);
+        userQueryMutableLiveData.setValue(null);
+    }
+
+    public void onPredictionPlaceIdReset() {
+        userQueryMutableLiveData.setValue(null);
+        resetPredictionPlaceIdUseCase.invoke();
     }
 }
