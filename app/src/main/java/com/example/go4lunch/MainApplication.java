@@ -16,6 +16,7 @@ import androidx.work.Configuration;
 
 import com.example.go4lunch.data.gps.location.GpsLocationRepositoryBroadcastReceiver;
 import com.example.go4lunch.data.gps.permission.GpsPermissionRepositoryImpl;
+import com.example.go4lunch.domain.notification.ScheduleWorkManagerForNotificationUseCase;
 
 import javax.inject.Inject;
 
@@ -32,6 +33,9 @@ public class MainApplication extends Application implements Application.Activity
     @Inject
     GpsLocationRepositoryBroadcastReceiver gpsLocationRepositoryBroadcastReceiver;
 
+    @Inject
+    ScheduleWorkManagerForNotificationUseCase scheduleWorkManagerForNotificationUseCase;
+
     private int activityCount;
 
     private boolean isGpsReceiverRegistered = false;
@@ -42,6 +46,7 @@ public class MainApplication extends Application implements Application.Activity
 
         registerActivityLifecycleCallbacks(this);
         registerGpsReceiver();
+        scheduleWorkManagerForNotificationUseCase.invoke();
     }
 
     private void registerGpsReceiver() {

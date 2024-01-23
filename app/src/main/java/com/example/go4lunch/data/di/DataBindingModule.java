@@ -12,6 +12,8 @@ import com.example.go4lunch.data.gps.permission.GpsPermissionRepository;
 import com.example.go4lunch.data.gps.permission.GpsPermissionRepositoryImpl;
 import com.example.go4lunch.data.nearbysearchrestaurants.NearbySearchRestaurantsRepository;
 import com.example.go4lunch.data.nearbysearchrestaurants.NearbySearchRestaurantsRepositoryGooglePlaces;
+import com.example.go4lunch.data.notification.NotificationRepository;
+import com.example.go4lunch.data.notification.NotificationRepositoryImpl;
 import com.example.go4lunch.data.user.FavoriteRestaurantRepository;
 import com.example.go4lunch.data.user.FirestoreFavoriteRestaurantRepository;
 import com.example.go4lunch.data.user.FirestoreUserRepository;
@@ -65,4 +67,8 @@ public abstract class DataBindingModule {
     @Binds
     @Singleton
     public abstract PredictionsRepository bindSearchViewQueryRepository(PredictionsRepositoryAutocomplete searchViewQueryRepositoryImplementation);
+
+    @Binds
+    @Singleton
+    public abstract NotificationRepository bindNotificationRepository(NotificationRepositoryImpl notificationRepositoryImpl);
 }

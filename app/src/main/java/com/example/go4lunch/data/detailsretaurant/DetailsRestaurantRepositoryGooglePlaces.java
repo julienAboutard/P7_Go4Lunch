@@ -87,9 +87,7 @@ import retrofit2.Response;
         Float rating;
         String formattedPhoneNumber;
         String website;
-
-        Log.d("controle5", "mapToDetailsRestaurantEntity: " + response.getResult());
-
+        
         if (response != null &&
             response.getResult() != null
         ) {

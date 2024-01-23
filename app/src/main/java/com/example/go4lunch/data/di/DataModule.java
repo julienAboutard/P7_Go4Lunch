@@ -2,9 +2,11 @@ package com.example.go4lunch.data.di;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import androidx.annotation.NonNull;
+import androidx.work.WorkManager;
 
 import com.example.go4lunch.data.api.GooglePlacesApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -88,5 +90,17 @@ public class DataModule {
     @Singleton
     public Clock provideClock() {
         return Clock.systemDefaultZone();
+    }
+
+    @Provides
+    @Singleton
+    public WorkManager provideWorkManager(@NonNull Application application) {
+        return WorkManager.getInstance(application);
+    }
+
+    @Provides
+    @Singleton
+    public SharedPreferences provideSharedPreferences(@NonNull Application application) {
+        return application.getSharedPreferences("NOTIFICATION_PREFERENCES", Context.MODE_PRIVATE);
     }
 }

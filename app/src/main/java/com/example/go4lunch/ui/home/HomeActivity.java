@@ -40,6 +40,7 @@ import com.example.go4lunch.ui.home.searchview.AutocompleteListAdapter;
 import com.example.go4lunch.ui.map.MapFragment;
 import com.example.go4lunch.ui.restaurant.detail.RestaurantDetailsActivity;
 import com.example.go4lunch.ui.restaurant.list.RestaurantListFragment;
+import com.example.go4lunch.ui.settings.SettingsActivity;
 import com.example.go4lunch.ui.workmatelist.WorkmateListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -130,6 +131,7 @@ public class HomeActivity extends AppCompatActivity {
                                     .show();
                             }
                         } else if (item.getItemId() == R.id.home_navigation_item_settings) {
+                            startActivity(SettingsActivity.navigate(this));
 
                         } else if (item.getItemId() == R.id.home_navigation_item_logout) {
                             viewModel.signOut();
@@ -206,11 +208,11 @@ public class HomeActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.bottom_bar_map) {
                     viewModel.onChangeFragmentView(MAP_FRAGMENT);
                     binding.homeToolbarSearchView.setVisibility(View.VISIBLE);
-                    binding.homeSearchviewRecyclerview.setVisibility(View.VISIBLE);
+                    binding.homeSearchviewRecyclerview.setVisibility(View.GONE);
                 } else if (item.getItemId() == R.id.bottom_bar_restaurant_list) {
                     viewModel.onChangeFragmentView(LIST_FRAGMENT);
                     binding.homeToolbarSearchView.setVisibility(View.VISIBLE);
-                    binding.homeSearchviewRecyclerview.setVisibility(View.VISIBLE);
+                    binding.homeSearchviewRecyclerview.setVisibility(View.GONE);
                 } else if (item.getItemId() == R.id.bottom_bar_workmate_list) {
                     viewModel.onChangeFragmentView(WORKMATES_FRAGMENT);
                     binding.homeToolbarSearchView.setVisibility(View.GONE);
@@ -230,8 +232,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initAutocompleteSearchView() {
         AutocompleteListAdapter adapter = new AutocompleteListAdapter((placeId, restaurantName) -> {
-            // Handle suggestion click here.
-            Log.d("controle", "onPredictionClicked() called with placeId: " + placeId);
 
             // Remove the onQueryTextListener temporarily to avoid unnecessary Autocomplete call
             binding.homeToolbarSearchView.setOnQueryTextListener(null);
@@ -254,7 +254,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
             );
-            hideSoftKeyboard();
+            //hideSoftKeyboard();
         }
         );
         binding.homeSearchviewRecyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -298,7 +298,7 @@ public class HomeActivity extends AppCompatActivity {
                 binding.homeToolbarSearchView.clearFocus();
                 binding.homeToolbarSearchView.onActionViewCollapsed();
                 viewModel.onPredictionPlaceIdReset();
-                hideSoftKeyboard();
+                //hideSoftKeyboard();
                 return true;
             }
         );

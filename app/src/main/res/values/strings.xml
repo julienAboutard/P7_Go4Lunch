@@ -72,4 +72,16 @@
     <string name="content_des_google_button">Google button for login with google account</string>
     <string name="content_des_github_button">Github button for login with github account</string>
     <string name="content_des_twitter_button">X or Twitter button for login with github account</string>
+
+    <string name="settings_activity_title">Settings</string>
+    <string name="lunch_reminder_notifications">Lunch reminder notifications</string>
+    <string name="settings_activity_gps_button">GPS settings</string>
+
+    <string name="notification_content_title">Time to Go4Lunch!</string>
+    <string name="notification_content_start">You</string>
+    <string name="notification_content_and">" and "</string>
+    <string name="notification_content_last_and">", and "</string>
+    <string name="notification_content_going_to_eat_at">" are going to eat at "</string>
+    <string name="notification_content_located_at">" located at "</string>
+    <string name="notification_content_solo_user">"You are going to eat at "</string>
 </resources>
