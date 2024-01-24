@@ -10,6 +10,7 @@ import androidx.work.WorkManager;
 
 import com.example.go4lunch.ui.notification.NotificationWorker;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -51,8 +52,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         Log.d("control", "scheduleNotification: test");
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
             NotificationWorker.class,
-            1,
-            TimeUnit.MINUTES)
+            24,
+            TimeUnit.HOURS)
             .addTag(NOTIFICATION_WORKER)
             .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .build();

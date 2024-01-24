@@ -26,8 +26,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 
 @HiltWorker
 public class NotificationWorker extends Worker {
@@ -60,7 +63,7 @@ public class NotificationWorker extends Worker {
     @Override
     public Result doWork() {
         DayOfWeek dayOfWeek = LocalDate.now(clock).getDayOfWeek();
-
+        Log.d("control", "doWork: test");
         // No notification scheduled on weekends :)
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
             return Result.success();
@@ -69,6 +72,7 @@ public class NotificationWorker extends Worker {
         NotificationEntity notificationEntity = getNotificationEntityUseCase.invoke();
         Log.d("control", "doWork: "+notificationEntity);
         if (notificationEntity != null) {
+            Log.d("control", "doWork: test");
             displayNotification(notificationEntity);
         } else {
             return Result.success();
