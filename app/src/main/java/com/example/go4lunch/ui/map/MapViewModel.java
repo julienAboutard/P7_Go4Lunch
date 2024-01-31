@@ -1,7 +1,5 @@
 package com.example.go4lunch.ui.map;
 
-import android.util.Log;
-
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +15,7 @@ import com.example.go4lunch.data.nearbysearchrestaurants.entity.NearbySearchRest
 import com.example.go4lunch.domain.autocomplete.GetPredictionPlaceIdUseCase;
 import com.example.go4lunch.domain.gps.IsGpsEnabledUseCase;
 import com.example.go4lunch.domain.location.GetCurrentLocationUseCase;
-import com.example.go4lunch.domain.nearbysearchresaturants.GetNearbySearchRestaurantsWrapperUseCase;
+import com.example.go4lunch.domain.nearbysearchrestaurants.GetNearbySearchRestaurantsWrapperUseCase;
 import com.example.go4lunch.domain.workmate.GetAttendantsGoingToSameRestaurantAsUserUseCase;
 import com.example.go4lunch.ui.map.marker.RestaurantMarkerViewStateItem;
 import com.example.go4lunch.ui.utils.Event;

@@ -99,7 +99,7 @@ public class SignupActivity extends AppCompatActivity {
                             startActivity(DispatcherActivity.navigate(SignupActivity.this));
                             finish();
                         } else {
-                            Toast.makeText(SignupActivity.this, "" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

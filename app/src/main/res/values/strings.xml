@@ -15,6 +15,8 @@
     <string name="login_password_hint">Password</string>
     <string name="other_methods">Use other Methods</string>
     <string name="login_error_message">MAIL OR PASSWORD IS EMPTY</string>
+
+    <string name="signup_information_card">Please enter all your information to get started</string>
     <string name="signup_error_message">MAIL OR PASSWORD OR NAME IS EMPTY</string>
     <string name="signup_name_hint">Full name</string>
     <string name="signup_button">Sign Up</string>
@@ -71,7 +73,7 @@
 
     <string name="content_des_google_button">Google button for login with google account</string>
     <string name="content_des_github_button">Github button for login with github account</string>
-    <string name="content_des_twitter_button">X or Twitter button for login with github account</string>
+    <string name="content_des_twitter_button">X or Twitter button for login with twitter account</string>
 
     <string name="settings_activity_title">Settings</string>
     <string name="lunch_reminder_notifications">Lunch reminder notifications</string>

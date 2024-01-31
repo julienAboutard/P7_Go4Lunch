@@ -1,6 +1,4 @@
-package com.example.go4lunch.domain.nearbysearchresaturants;
-
-import android.util.Log;
+package com.example.go4lunch.domain.nearbysearchrestaurants;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;

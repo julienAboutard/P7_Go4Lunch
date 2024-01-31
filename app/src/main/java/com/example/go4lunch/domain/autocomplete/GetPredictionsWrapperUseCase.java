@@ -9,7 +9,6 @@ import com.example.go4lunch.data.autocomplete.PredictionsRepository;
 import com.example.go4lunch.data.autocomplete.entity.PredictionEntityWrapper;
 import com.example.go4lunch.data.gps.entity.LocationEntity;
 import com.example.go4lunch.data.gps.entity.LocationEntityWrapper;
-import com.example.go4lunch.data.nearbysearchrestaurants.entity.NearbySearchRestaurantsWrapper;
 import com.example.go4lunch.domain.location.GetCurrentLocationUseCase;
 
 import javax.inject.Inject;
@@ -20,17 +19,17 @@ public class GetPredictionsWrapperUseCase {
     private static final String TYPES = "restaurant";
 
     @NonNull
-    private final PredictionsRepository repository;
+    private final PredictionsRepository predictionsRepository;
 
     @NonNull
     private final GetCurrentLocationUseCase getCurrentLocationUseCase;
 
     @Inject
     public GetPredictionsWrapperUseCase(
-        @NonNull PredictionsRepository repository,
+        @NonNull PredictionsRepository predictionsRepository,
         @NonNull GetCurrentLocationUseCase getCurrentLocationUseCase
     ) {
-        this.repository = repository;
+        this.predictionsRepository = predictionsRepository;
         this.getCurrentLocationUseCase = getCurrentLocationUseCase;
     }
 
@@ -39,7 +38,7 @@ public class GetPredictionsWrapperUseCase {
         return Transformations.switchMap(locationEntityWrapperLiveData, locationEntityWrapper -> {
                 if (locationEntityWrapper instanceof LocationEntityWrapper.GpsProviderEnabled) {
                     LocationEntity location = ((LocationEntityWrapper.GpsProviderEnabled) locationEntityWrapper).locationEntity;
-                    return repository.getPredictionsLiveData(
+                    return predictionsRepository.getPredictionsLiveData(
                         query,
                         location.getLatitude(),
                         location.getLongitude(),

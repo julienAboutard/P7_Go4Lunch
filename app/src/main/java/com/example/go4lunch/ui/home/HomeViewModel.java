@@ -1,8 +1,5 @@
 package com.example.go4lunch.ui.home;
 
-import static com.example.go4lunch.ui.home.HomeDisplayScreen.LIST_FRAGMENT;
-import static com.example.go4lunch.ui.home.HomeDisplayScreen.MAP_FRAGMENT;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,7 +11,6 @@ import com.example.go4lunch.data.autocomplete.entity.PredictionEntityWrapper;
 import com.example.go4lunch.data.firebaseauth.entity.LoggedUserEntity;
 import com.example.go4lunch.data.user.entity.UserEntity;
 import com.example.go4lunch.data.user.entity.UserWithRestaurantChoiceEntity;
-import com.example.go4lunch.domain.authentification.GetCurrentLoggedUserUseCase;
 import com.example.go4lunch.domain.authentification.IsUserLoggedInLiveDataUseCase;
 import com.example.go4lunch.domain.authentification.LogoutUserUseCase;
 import com.example.go4lunch.domain.autocomplete.GetPredictionsWrapperUseCase;
@@ -26,7 +22,6 @@ import com.example.go4lunch.domain.location.StartLocationRequestUseCase;
 import com.example.go4lunch.domain.user.GetUserEntityUseCase;
 import com.example.go4lunch.ui.home.searchview.PredictionViewState;
 import com.example.go4lunch.ui.utils.Event;
-import com.example.go4lunch.ui.utils.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -9,14 +9,14 @@ import javax.inject.Inject;
 public class ResetPredictionPlaceIdUseCase {
 
     @NonNull
-    private final PredictionsRepository repository;
+    private final PredictionsRepository predictionsRepository;
 
     @Inject
-    public ResetPredictionPlaceIdUseCase(@NonNull PredictionsRepository repository) {
-        this.repository = repository;
+    public ResetPredictionPlaceIdUseCase(@NonNull PredictionsRepository predictionsRepository) {
+        this.predictionsRepository = predictionsRepository;
     }
 
     public void invoke() {
-        repository.resetPredictionPlaceIdQuery();
+        predictionsRepository.resetPredictionPlaceIdQuery();
     }
 }

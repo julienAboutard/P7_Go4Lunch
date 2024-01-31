@@ -5,8 +5,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.example.go4lunch.ui.notification.NotificationWorker;
 
@@ -49,7 +51,6 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     @Override
     public void scheduleNotification(long delay) {
-        Log.d("control", "scheduleNotification: test");
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
             NotificationWorker.class,
             24,

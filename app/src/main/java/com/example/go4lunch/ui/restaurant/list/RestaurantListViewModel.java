@@ -10,7 +10,6 @@ import static com.example.go4lunch.ui.restaurant.list.RestaurantOpeningState.IS_
 
 import android.content.res.Resources;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +25,7 @@ import com.example.go4lunch.data.nearbysearchrestaurants.entity.NearbySearchRest
 import com.example.go4lunch.domain.autocomplete.GetPredictionPlaceIdUseCase;
 import com.example.go4lunch.domain.gps.IsGpsEnabledUseCase;
 import com.example.go4lunch.domain.location.GetCurrentLocationUseCase;
-import com.example.go4lunch.domain.nearbysearchresaturants.GetNearbySearchRestaurantsWrapperUseCase;
+import com.example.go4lunch.domain.nearbysearchrestaurants.GetNearbySearchRestaurantsWrapperUseCase;
 import com.example.go4lunch.domain.permission.HasGpsPermissionUseCase;
 import com.example.go4lunch.domain.workmate.GetAttendantsGoingToSameRestaurantAsUserUseCase;
 import com.google.android.gms.maps.model.LatLng;
