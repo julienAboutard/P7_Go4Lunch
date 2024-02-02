@@ -93,7 +93,9 @@ public class GetUserEntityUseCase {
             return;
         }
 
-        Set<String> updatedFavoriteRestaurantsIds = new HashSet<>(favoriteRestaurantsIds != null ? favoriteRestaurantsIds : Collections.emptySet());
+        Set<String> updatedFavoriteRestaurantsIds = new HashSet<>(
+            favoriteRestaurantsIds != null ? favoriteRestaurantsIds : Collections.emptySet()
+        );
 
         userEntityMediatorLiveData.setValue(
             new UserEntity(

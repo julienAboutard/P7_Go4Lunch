@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/go4lunchbg2" />
+                tools:src="@drawable/go4lunchbg" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,9 +135,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/detail_button_call"
                     app:icon="@drawable/baseline_call_24"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/detail_restaurant_like_button"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -147,9 +148,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/detail_button_like"
                     app:icon="@drawable/twotone_favorite_24"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/detail_restaurant_website_button"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/detail_restaurant_call_button"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -159,11 +161,20 @@
                     android:layout_height="wrap_content"
                     android:text="@string/detail_button_website"
                     app:icon="@drawable/baseline_public_24"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/detail_restaurant_like_button"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/detail_restaurant_loading_state_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="4dp">
+                    <include layout="@layout/loading_state" />
+                </FrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.divider.MaterialDivider
@@ -198,15 +209,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <FrameLayout
-        android:id="@+id/detail_restaurant_loading_state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <include layout="@layout/loading_state" />
-    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

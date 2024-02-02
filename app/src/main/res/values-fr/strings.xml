@@ -6,7 +6,7 @@
     <string name="login_title_card">Bienvenue</string>
     <string name="login_information_card">Connectez-vous à votre compte</string>
     <string name="login">Se connecter</string>
-    <string name="new_user_message">Nouveaux ici ? Inscrivez-vous ici</string>
+    <string name="new_user_message">Nouveau ici ? Inscrivez-vous ici</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Mot De Passe</string>
     <string name="other_methods">Utilisez di\'autres méthodes</string>
@@ -16,7 +16,7 @@
     <string name="signup_name_hint">Nom Prénom</string>
     <string name="signup_button">S\'inscrire</string>
     <string name="home_navigation_lunch">VOTRE DÉJEUNER</string>
-    <string name="home_navigation_settings">OPTIONS</string>
+    <string name="home_navigation_settings">PARAMÈTRES</string>
     <string name="home_navigation_logout">SE DÉCONNECTER</string>
     <string name="toast_message_user_no_restaurant_chosen">Vous n\'avez pas encore choisi votre restaurant pour déjeuner</string>
     <string name="bottom_bar_map_item">Carte</string>
@@ -26,9 +26,9 @@
     <string name="onboarding_decline_button">Non</string>
     <string name="onboarding_allow_button">Accorder la permission</string>
     <string name="onboarding_welcome_tv">Bienvenue ! Pour une expérience optimale, Go4Lunch a besoin de votre localisation via gps</string>
-    <string name="show_rationale_permission_message">Cette application à besoin de la permission d\'utiliser votre Gps pour obtenir votre position. Nous en avons besoin juste pour pouvoir afficher les restaurants autour de vous ! Pour accorder votre autorisation, cliquez sur \"Modifier les options\"</string>
+    <string name="show_rationale_permission_message">Cette application à besoin de la permission d\'utiliser votre Gps pour obtenir votre position. Nous en avons besoin juste pour pouvoir afficher les restaurants autour de vous ! Pour accorder votre autorisation, cliquez sur \"Modifier les paramètres\"</string>
     <string name="show_rationale_title">Autorisation nécessaire</string>
-    <string name="change_settings_dialog_button">Modifier les options</string>
+    <string name="change_settings_dialog_button">Modifier les paramètres</string>
     <string name="list_error_message_no_results">Aucun résultat à votre rechercheà été  trouvé dans votre zone</string>
     <string name="list_error_message_no_gps">Veuillez activer votre gps pour voir la liste</string>
     <string name="list_no_restaurant_match">Aucun restaurant correspondant à votre recherche a été trouvez à proximité</string>
@@ -56,9 +56,9 @@
     <string name="content_des_google_button">Bouton Google pour se connecter avec un compte Google</string>
     <string name="content_des_github_button">Bouton Github pour se connecter avec un compte Github</string>
     <string name="content_des_twitter_button">Bouton X ou Twitter pour se connecter avec un compte Twitter</string>
-    <string name="settings_activity_title">Options</string>
+    <string name="settings_activity_title">Paramètres</string>
     <string name="lunch_reminder_notifications">Notification de rappel de déjeuner</string>
-    <string name="settings_activity_gps_button">Options du Gps</string>
+    <string name="settings_activity_gps_button">Paramètres du Gps</string>
     <string name="notification_content_title">C\'est l\'heure de Go4Lunch</string>
     <string name="notification_content_start">Vous</string>
     <string name="notification_content_and">et</string>

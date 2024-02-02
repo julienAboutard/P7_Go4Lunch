@@ -1,10 +1,13 @@
 package com.example.go4lunch.data.user;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -53,12 +56,16 @@ public class FirestoreFavoriteRestaurantRepository implements FavoriteRestaurant
 
     @Override
     @NonNull
-    public LiveData<Set<String>> getUserFavoriteRestaurantIdsLiveData(@NonNull String userId) {
-        return new FirestoreFavoriteRestaurantIdsLiveData(
-            firestore
-                .collection(USERS_COLLECTION)
-                .document(userId)
-                .collection(COLLECTION_PATH_FAVORITE_RESTAURANTS)
-        );
+    public LiveData<Set<String>> getUserFavoriteRestaurantIdsLiveData(@Nullable String userId) {
+        if (userId != null) {
+            return new FirestoreFavoriteRestaurantIdsLiveData(
+                firestore
+                    .collection(USERS_COLLECTION)
+                    .document(userId)
+                    .collection(COLLECTION_PATH_FAVORITE_RESTAURANTS)
+            );
+        } else {
+            return new MutableLiveData<>(Collections.emptySet());
+        }
     }
 }

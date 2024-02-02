@@ -155,6 +155,7 @@ public class HomeViewModel extends ViewModel {
     public LiveData<UserWithRestaurantChoiceEntity> getUserWithRestaurantChoice() {
         return getUserWithRestaurantChoiceEntityLiveDataUseCase.invoke();
     }
+
     public LiveData<Boolean> onUserLogged() {
         LiveData<Boolean> isUserLoggedInLiveData = isUserLoggedInLiveDataUseCase.invoke();
         return Transformations.switchMap(isUserLoggedInLiveData, isLogged -> {

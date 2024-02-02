@@ -20,11 +20,6 @@ public class GetCurrentLoggedUserIdUseCase {
 
     @NonNull
     public String invoke() {
-        String currentUserId = authRepository.getCurrentLoggedUserId();
-        if (currentUserId != null) {
-            return currentUserId;
-        } else {
-            throw new IllegalStateException("User is not logged in");
-        }
+        return authRepository.getCurrentLoggedUserId();
     }
 }

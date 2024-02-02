@@ -1,5 +1,7 @@
 package com.example.go4lunch.ui.dispatcher;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
