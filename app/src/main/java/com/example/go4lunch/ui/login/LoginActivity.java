@@ -138,17 +138,21 @@ public class LoginActivity extends AppCompatActivity {
         viewBinding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.onLoginButton().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            startActivity(DispatcherActivity.navigate(LoginActivity.this));
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Login Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                if (viewModel.getLoginMail() == null || viewModel.getLoginPassword() == null) {
+                    Toast.makeText(LoginActivity.this, R.string.login_error_message, Toast.LENGTH_SHORT).show();
+                } else {
+                    viewModel.onLoginButton().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                startActivity(DispatcherActivity.navigate(LoginActivity.this));
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Login Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 

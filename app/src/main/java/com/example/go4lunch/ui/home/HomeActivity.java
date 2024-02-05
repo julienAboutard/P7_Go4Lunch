@@ -123,8 +123,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 } else if (item.getItemId() == R.id.home_navigation_item_logout) {
                     viewModel.signOut();
-                    /*startActivity(DispatcherActivity.navigate(this));
-                    finish();*/
                 }
                 return true;
             }

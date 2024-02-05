@@ -23,7 +23,6 @@ public class LoginViewModel extends ViewModel {
     private final AuthRepository authRepository;
     private String loginMail;
     private String loginPassword;
-    private final MutableLiveData<Event<Integer>> displayToastEvent = new MutableLiveData<>();
 
     @NonNull
     private final AddLoggedUserEntityUseCase addLoggedUserEntityUseCase;
@@ -45,17 +44,16 @@ public class LoginViewModel extends ViewModel {
         loginPassword = password;
     }
 
-    public LiveData<Event<Integer>> getDisplayToastEvent() {
-        return displayToastEvent;
+    public String getLoginMail() {
+        return loginMail;
+    }
+
+    public String getLoginPassword() {
+        return loginPassword;
     }
 
     public Task<AuthResult> onLoginButton() {
-        if (loginMail == null || loginPassword == null) {
-            displayToastEvent.setValue(new Event<>(R.string.login_error_message));
-            return null;
-        } else {
-            return authRepository.logIn(loginMail, loginPassword);
-        }
+        return authRepository.logIn(loginMail, loginPassword);
     }
 
     public void onLoginComplete() {

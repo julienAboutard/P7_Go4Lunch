@@ -46,24 +46,30 @@ public class SignupViewModel extends ViewModel {
         signupMail = mail;
     }
 
-    public void onPasswordChanged(String password) { signupPassword = password; }
+    public void onPasswordChanged(String password) {
+        signupPassword = password;
+    }
 
-    public void onNameChanged (String name) {
+    public void onNameChanged(String name) {
         signupName = name;
     }
 
-    public LiveData<Event<Integer>> getDisplayToastEvent() {
-        return displayToastEvent;
+    public String getSignupMail() {
+        return signupMail;
+    }
+
+    public String getSignupPassword() {
+        return signupPassword;
+    }
+
+    public String getSignupName() {
+        return signupName;
     }
 
     public Task<AuthResult> onSignupButton() {
-        if (signupMail == null || signupPassword == null || signupName == null) {
-            displayToastEvent.setValue(new Event<>(R.string.signup_error_message));
-            return null;
-        } else {
-            return signupUserUseCase.invoke(signupMail, signupPassword, signupName);
-        }
+        return signupUserUseCase.invoke(signupMail, signupPassword, signupName);
     }
+
     public void onLoginComplete() {
         addLoggedUserEntityUseCase.invoke();
     }
