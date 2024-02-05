@@ -78,7 +78,7 @@ public class RestaurantListViewModelTest {
 
     private final MutableLiveData<Map<String, Integer>> attendantsGoingToSameRestaurantAsUserLiveData = new MutableLiveData<>();
 
-    MutableLiveData<String> predictionIdLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> predictionIdLiveData = new MutableLiveData<>();
 
     private RestaurantListViewModel restaurantListViewModel;
 

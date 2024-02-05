@@ -3,7 +3,6 @@ package com.example.go4lunch.ui.dispatcher;
 import static com.example.go4lunch.utils.TestUtils.getValueForTesting;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.doReturn;
-import org.mockito.verification.VerificationEvent;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
@@ -19,7 +18,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)

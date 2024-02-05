@@ -95,14 +95,10 @@ public class RestaurantDetailViewModel extends ViewModel {
         LiveData<UserEntity> currentUserEntityLiveData = getUserEntityUseCase.invoke();
         currentUserId = getCurrentLoggedUserIdUseCase.invoke();
 
-        restaurantDetailViewStateMediatorLiveData.addSource(detailsRestaurantWrapperLiveData, detailsRestaurantWrapper -> {
-                combine(detailsRestaurantWrapper, currentUserEntityLiveData.getValue());
-            }
+        restaurantDetailViewStateMediatorLiveData.addSource(detailsRestaurantWrapperLiveData, detailsRestaurantWrapper -> combine(detailsRestaurantWrapper, currentUserEntityLiveData.getValue())
         );
 
-        restaurantDetailViewStateMediatorLiveData.addSource(currentUserEntityLiveData, currentUser -> {
-                combine(detailsRestaurantWrapperLiveData.getValue(), currentUser);
-            }
+        restaurantDetailViewStateMediatorLiveData.addSource(currentUserEntityLiveData, currentUser -> combine(detailsRestaurantWrapperLiveData.getValue(), currentUser)
         );
     }
 

@@ -3,19 +3,14 @@ package com.example.go4lunch.ui.map;
 import static android.content.ContentValues.TAG;
 import static com.example.go4lunch.ui.utils.BitmapFromVector.getBitmapFromVector;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.go4lunch.R;
@@ -24,9 +19,6 @@ import com.example.go4lunch.data.gps.entity.LocationEntityWrapper;
 import com.example.go4lunch.ui.map.marker.OnMarkerClickedListener;
 import com.example.go4lunch.ui.map.marker.RestaurantMarkerViewStateItem;
 import com.example.go4lunch.ui.restaurant.detail.RestaurantDetailsActivity;
-import com.example.go4lunch.ui.workmatelist.OnWorkmateClickedListener;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,8 +29,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +41,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private MapViewModel viewModel;
     private final List<Marker> markers = new ArrayList<>();
 
-    private Marker userMarker = null;
+    private final Marker userMarker = null;
 
     @NonNull
     public static MapFragment newInstance() {

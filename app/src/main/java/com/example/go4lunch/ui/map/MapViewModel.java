@@ -58,59 +58,49 @@ public class MapViewModel extends ViewModel {
         LiveData<Map<String, Integer>> restaurantIdWithAttendantsMapLiveData = getAttendantsGoingToSameRestaurantAsUserUseCase.invoke();
         LiveData<String> placeIdLiveData = getPredictionPlaceIdUseCase.invoke();
 
-        mapViewStateMediatorLiveData.addSource(isGpsEnabledLiveData, isGpsEnabled -> {
-                combine(
-                    isGpsEnabled,
-                    locationEntityWrapperLiveData.getValue(),
-                    nearbySearchRestaurantsWrapperLiveData.getValue(),
-                    restaurantIdWithAttendantsMapLiveData.getValue(),
-                    placeIdLiveData.getValue()
-                );
-            }
+        mapViewStateMediatorLiveData.addSource(isGpsEnabledLiveData, isGpsEnabled -> combine(
+            isGpsEnabled,
+            locationEntityWrapperLiveData.getValue(),
+            nearbySearchRestaurantsWrapperLiveData.getValue(),
+            restaurantIdWithAttendantsMapLiveData.getValue(),
+            placeIdLiveData.getValue()
+        )
         );
 
-        mapViewStateMediatorLiveData.addSource(locationEntityWrapperLiveData, locationEntityWrapper -> {
-                combine(
-                    isGpsEnabledLiveData.getValue(),
-                    locationEntityWrapper,
-                    nearbySearchRestaurantsWrapperLiveData.getValue(),
-                    restaurantIdWithAttendantsMapLiveData.getValue(),
-                    placeIdLiveData.getValue()
-                );
-            }
+        mapViewStateMediatorLiveData.addSource(locationEntityWrapperLiveData, locationEntityWrapper -> combine(
+            isGpsEnabledLiveData.getValue(),
+            locationEntityWrapper,
+            nearbySearchRestaurantsWrapperLiveData.getValue(),
+            restaurantIdWithAttendantsMapLiveData.getValue(),
+            placeIdLiveData.getValue()
+        )
         );
 
-        mapViewStateMediatorLiveData.addSource(nearbySearchRestaurantsWrapperLiveData, nearbySearchRestaurantsWrapper -> {
-                combine(
-                    isGpsEnabledLiveData.getValue(),
-                    locationEntityWrapperLiveData.getValue(),
-                    nearbySearchRestaurantsWrapper,
-                    restaurantIdWithAttendantsMapLiveData.getValue(),
-                    placeIdLiveData.getValue()
-                );
-            }
+        mapViewStateMediatorLiveData.addSource(nearbySearchRestaurantsWrapperLiveData, nearbySearchRestaurantsWrapper -> combine(
+            isGpsEnabledLiveData.getValue(),
+            locationEntityWrapperLiveData.getValue(),
+            nearbySearchRestaurantsWrapper,
+            restaurantIdWithAttendantsMapLiveData.getValue(),
+            placeIdLiveData.getValue()
+        )
         );
 
-        mapViewStateMediatorLiveData.addSource(restaurantIdWithAttendantsMapLiveData, restaurantIdToAttendantsCount -> {
-                combine(
-                    isGpsEnabledLiveData.getValue(),
-                    locationEntityWrapperLiveData.getValue(),
-                    nearbySearchRestaurantsWrapperLiveData.getValue(),
-                    restaurantIdToAttendantsCount,
-                    placeIdLiveData.getValue()
-                );
-            }
+        mapViewStateMediatorLiveData.addSource(restaurantIdWithAttendantsMapLiveData, restaurantIdToAttendantsCount -> combine(
+            isGpsEnabledLiveData.getValue(),
+            locationEntityWrapperLiveData.getValue(),
+            nearbySearchRestaurantsWrapperLiveData.getValue(),
+            restaurantIdToAttendantsCount,
+            placeIdLiveData.getValue()
+        )
         );
 
-        mapViewStateMediatorLiveData.addSource(placeIdLiveData, placeId -> {
-                combine(
-                    isGpsEnabledLiveData.getValue(),
-                    locationEntityWrapperLiveData.getValue(),
-                    nearbySearchRestaurantsWrapperLiveData.getValue(),
-                    restaurantIdWithAttendantsMapLiveData.getValue(),
-                    placeId
-                );
-            }
+        mapViewStateMediatorLiveData.addSource(placeIdLiveData, placeId -> combine(
+            isGpsEnabledLiveData.getValue(),
+            locationEntityWrapperLiveData.getValue(),
+            nearbySearchRestaurantsWrapperLiveData.getValue(),
+            restaurantIdWithAttendantsMapLiveData.getValue(),
+            placeId
+        )
         );
     }
 

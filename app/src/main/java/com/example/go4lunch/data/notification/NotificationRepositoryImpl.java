@@ -1,18 +1,14 @@
 package com.example.go4lunch.data.notification;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import com.example.go4lunch.ui.notification.NotificationWorker;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;

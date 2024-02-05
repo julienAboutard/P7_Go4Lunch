@@ -60,7 +60,7 @@ public class MapViewModelTest {
 
     private final MutableLiveData<Boolean> isGpsEnabledMutableLiveData = new MutableLiveData<>();
 
-    MutableLiveData<String> predictionIdLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> predictionIdLiveData = new MutableLiveData<>();
 
     private MapViewModel mapViewModel;
 

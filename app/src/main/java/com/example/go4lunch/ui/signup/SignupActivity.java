@@ -19,7 +19,6 @@ import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -89,28 +88,22 @@ public class SignupActivity extends AppCompatActivity {
                 viewModel.onNameChanged(editable.toString());
             }
         });
-        binding.signupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (viewModel.getSignupMail() == null ||
-                    viewModel.getSignupPassword() == null ||
-                    viewModel.getSignupName() == null
-                ) {
-                    Toast.makeText(SignupActivity.this, R.string.signup_error_message, Toast.LENGTH_SHORT).show();
-                } else {
-                    viewModel.onSignupButton().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                viewModel.onLoginComplete();
-                                startActivity(DispatcherActivity.navigate(SignupActivity.this));
-                                finish();
-                            } else {
-                                Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+        binding.signupBtn.setOnClickListener(view -> {
+            if (viewModel.getSignupMail() == null ||
+                viewModel.getSignupPassword() == null ||
+                viewModel.getSignupName() == null
+            ) {
+                Toast.makeText(SignupActivity.this, R.string.signup_error_message, Toast.LENGTH_SHORT).show();
+            } else {
+                viewModel.onSignupButton().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        viewModel.onLoginComplete();
+                        startActivity(DispatcherActivity.navigate(SignupActivity.this));
+                        finish();
+                    } else {
+                        Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

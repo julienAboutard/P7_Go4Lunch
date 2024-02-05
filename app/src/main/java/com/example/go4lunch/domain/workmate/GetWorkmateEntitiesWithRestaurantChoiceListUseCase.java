@@ -20,7 +20,7 @@ public class GetWorkmateEntitiesWithRestaurantChoiceListUseCase {
 
     private final String currentLoggedUserId;
 
-    MediatorLiveData<List<WorkmateEntity>> workmateEntitiesWithRestaurantChoiceLiveData = new MediatorLiveData<>();
+    private final MediatorLiveData<List<WorkmateEntity>> workmateEntitiesWithRestaurantChoiceLiveData = new MediatorLiveData<>();
 
     @Inject
     public GetWorkmateEntitiesWithRestaurantChoiceListUseCase(
@@ -33,14 +33,10 @@ public class GetWorkmateEntitiesWithRestaurantChoiceListUseCase {
         LiveData<List<UserWithRestaurantChoiceEntity>> userWithRestaurantChoiceEntitiesLiveData = userRepository.getUsersWithRestaurantChoiceEntities();
         currentLoggedUserId = getCurrentLoggedUserIdUseCase.invoke();
 
-        workmateEntitiesWithRestaurantChoiceLiveData.addSource(loggedUserEntitiesLiveData, loggedUserEntities -> {
-                combine(loggedUserEntities, userWithRestaurantChoiceEntitiesLiveData.getValue());
-            }
+        workmateEntitiesWithRestaurantChoiceLiveData.addSource(loggedUserEntitiesLiveData, loggedUserEntities -> combine(loggedUserEntities, userWithRestaurantChoiceEntitiesLiveData.getValue())
         );
 
-        workmateEntitiesWithRestaurantChoiceLiveData.addSource(userWithRestaurantChoiceEntitiesLiveData, userWithRestaurantChoiceEntities -> {
-                combine(loggedUserEntitiesLiveData.getValue(), userWithRestaurantChoiceEntities);
-            }
+        workmateEntitiesWithRestaurantChoiceLiveData.addSource(userWithRestaurantChoiceEntitiesLiveData, userWithRestaurantChoiceEntities -> combine(loggedUserEntitiesLiveData.getValue(), userWithRestaurantChoiceEntities)
         );
     }
 

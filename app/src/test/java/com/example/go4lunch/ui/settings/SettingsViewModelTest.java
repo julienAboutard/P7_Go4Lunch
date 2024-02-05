@@ -33,7 +33,8 @@ public class SettingsViewModelTest {
     @Mock
     private ToggleWorkManagerForNotificationUseCase toggleWorkManagerForNotificationUseCase;
 
-    MutableLiveData<Boolean> isNotificationEnabled = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isNotificationEnabled = new MutableLiveData<>();
+
     private SettingsViewModel settingsViewModel;
 
     @Before

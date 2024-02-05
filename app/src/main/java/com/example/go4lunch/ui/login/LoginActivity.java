@@ -38,8 +38,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 
-import java.util.Collections;
-
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -68,18 +66,15 @@ public class LoginActivity extends AppCompatActivity {
                             GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
                             if (googleSignInAccount != null) {
                                 AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
-                                FirebaseAuth.getInstance().signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                FirebaseAuth.getInstance().signInWithCredential(authCredential).addOnCompleteListener(task -> {
 
-                                        if (task.isSuccessful()) {
-                                            viewModel.onLoginComplete();
-                                            startActivity(DispatcherActivity.navigate(LoginActivity.this));
-                                            finish();
-                                            Log.i(TAG, "Firebase auth google successful");
-                                        } else {
-                                            Log.e("Firebase auth error: ", task.getException().getMessage());
-                                        }
+                                    if (task.isSuccessful()) {
+                                        viewModel.onLoginComplete();
+                                        startActivity(DispatcherActivity.navigate(LoginActivity.this));
+                                        finish();
+                                        Log.i(TAG, "Firebase auth google successful");
+                                    } else {
+                                        Log.e("Firebase auth error: ", task.getException().getMessage());
                                     }
                                 });
                             }
@@ -135,24 +130,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        viewBinding.loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (viewModel.getLoginMail() == null || viewModel.getLoginPassword() == null) {
-                    Toast.makeText(LoginActivity.this, R.string.login_error_message, Toast.LENGTH_SHORT).show();
-                } else {
-                    viewModel.onLoginButton().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                startActivity(DispatcherActivity.navigate(LoginActivity.this));
-                                finish();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Login Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+        viewBinding.loginBtn.setOnClickListener(v -> {
+            if (viewModel.getLoginMail() == null || viewModel.getLoginPassword() == null) {
+                Toast.makeText(LoginActivity.this, R.string.login_error_message, Toast.LENGTH_SHORT).show();
+            } else {
+                viewModel.onLoginButton().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        startActivity(DispatcherActivity.navigate(LoginActivity.this));
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

@@ -2,8 +2,6 @@ package com.example.go4lunch.data.autocomplete;
 
 import static com.example.go4lunch.BuildConfig.API_KEY;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -14,7 +12,6 @@ import com.example.go4lunch.data.autocomplete.entity.PredictionEntity;
 import com.example.go4lunch.data.autocomplete.entity.PredictionEntityWrapper;
 import com.example.go4lunch.data.autocomplete.response.AutocompletePredictionResponse;
 import com.example.go4lunch.data.autocomplete.response.PredictionsItem;
-import com.example.go4lunch.data.nearbysearchrestaurants.entity.NearbySearchRestaurantsEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -3,18 +3,15 @@ package com.example.go4lunch.ui.dispatcher;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.go4lunch.ui.home.HomeActivity;
 import com.example.go4lunch.ui.login.LoginActivity;
 import com.example.go4lunch.ui.navigation.Destination;
 import com.example.go4lunch.ui.onboarding.OnBoardingActivity;
-import com.example.go4lunch.ui.utils.Event;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

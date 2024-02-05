@@ -10,7 +10,6 @@ import android.provider.Settings;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.go4lunch.R;
 import com.example.go4lunch.databinding.OnboardingActivityBinding;
 import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
-import com.example.go4lunch.ui.home.HomeActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -76,11 +74,9 @@ public class OnBoardingActivity extends AppCompatActivity {
             }
         );
 
-        binding.onboardingAllowButton.setOnClickListener(v -> {
-                viewModel.onAllowClicked(
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                );
-            }
+        binding.onboardingAllowButton.setOnClickListener(v -> viewModel.onAllowClicked(
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        )
         );
     }
 
@@ -88,9 +84,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
             .setTitle(R.string.show_rationale_title)
             .setMessage(R.string.show_rationale_permission_message)
-            .setPositiveButton(R.string.change_settings_dialog_button, (dialog, which) -> {
-                    viewModel.onChangeAppSettingsClicked();
-                }
+            .setPositiveButton(R.string.change_settings_dialog_button, (dialog, which) -> viewModel.onChangeAppSettingsClicked()
             )
             .setCancelable(false)
             .create()

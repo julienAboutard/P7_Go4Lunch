@@ -1,11 +1,9 @@
 package com.example.go4lunch.ui.signup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.go4lunch.R;
 import com.example.go4lunch.domain.authentification.SignupUserUseCase;
 import com.example.go4lunch.domain.user.AddLoggedUserEntityUseCase;
 import com.example.go4lunch.ui.utils.Event;

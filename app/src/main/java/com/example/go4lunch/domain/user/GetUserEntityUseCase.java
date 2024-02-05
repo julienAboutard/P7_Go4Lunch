@@ -1,7 +1,5 @@
 package com.example.go4lunch.domain.user;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -38,44 +36,36 @@ public class GetUserEntityUseCase {
         LiveData<UserWithRestaurantChoiceEntity> userWithRestaurantChoiceEntityLiveData = getUserWithRestaurantChoiceEntityLiveDataUseCase.invoke();
         LiveData<Boolean> isUserLoggedInLiveData = isUserLoggedInLiveDataUseCase.invoke();
         LiveData<LoggedUserEntity> loggedUserEntityLiveData = authRepository.getLoggedUserLiveData();
-        userEntityMediatorLiveData.addSource(isUserLoggedInLiveData, isUserLoggedIn -> {
-                combine(
-                    isUserLoggedIn,
-                    favoriteRestaurantsIdsLiveData.getValue(),
-                    userWithRestaurantChoiceEntityLiveData.getValue(),
-                    loggedUserEntityLiveData.getValue()
-                );
-            }
+        userEntityMediatorLiveData.addSource(isUserLoggedInLiveData, isUserLoggedIn -> combine(
+            isUserLoggedIn,
+            favoriteRestaurantsIdsLiveData.getValue(),
+            userWithRestaurantChoiceEntityLiveData.getValue(),
+            loggedUserEntityLiveData.getValue()
+        )
         );
 
-        userEntityMediatorLiveData.addSource(favoriteRestaurantsIdsLiveData, favoriteRestaurantIds -> {
-                combine(
-                    isUserLoggedInLiveData.getValue(),
-                    favoriteRestaurantIds,
-                    userWithRestaurantChoiceEntityLiveData.getValue(),
-                    loggedUserEntityLiveData.getValue()
-                );
-            }
+        userEntityMediatorLiveData.addSource(favoriteRestaurantsIdsLiveData, favoriteRestaurantIds -> combine(
+            isUserLoggedInLiveData.getValue(),
+            favoriteRestaurantIds,
+            userWithRestaurantChoiceEntityLiveData.getValue(),
+            loggedUserEntityLiveData.getValue()
+        )
         );
 
-        userEntityMediatorLiveData.addSource(userWithRestaurantChoiceEntityLiveData, userWithRestaurantChoice -> {
-                combine(
-                    isUserLoggedInLiveData.getValue(),
-                    favoriteRestaurantsIdsLiveData.getValue(),
-                    userWithRestaurantChoice,
-                    loggedUserEntityLiveData.getValue()
-                );
-            }
+        userEntityMediatorLiveData.addSource(userWithRestaurantChoiceEntityLiveData, userWithRestaurantChoice -> combine(
+            isUserLoggedInLiveData.getValue(),
+            favoriteRestaurantsIdsLiveData.getValue(),
+            userWithRestaurantChoice,
+            loggedUserEntityLiveData.getValue()
+        )
         );
 
-        userEntityMediatorLiveData.addSource(loggedUserEntityLiveData, currentUser -> {
-                combine(
-                    isUserLoggedInLiveData.getValue(),
-                    favoriteRestaurantsIdsLiveData.getValue(),
-                    userWithRestaurantChoiceEntityLiveData.getValue(),
-                    currentUser
-                );
-            }
+        userEntityMediatorLiveData.addSource(loggedUserEntityLiveData, currentUser -> combine(
+            isUserLoggedInLiveData.getValue(),
+            favoriteRestaurantsIdsLiveData.getValue(),
+            userWithRestaurantChoiceEntityLiveData.getValue(),
+            currentUser
+        )
         );
     }
 

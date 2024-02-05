@@ -1,19 +1,11 @@
 package com.example.go4lunch.domain.autocomplete;
 
-import static com.example.go4lunch.utils.TestUtils.getValueForTesting;
-import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.go4lunch.data.autocomplete.PredictionsRepository;
-import com.example.go4lunch.utils.TestValues;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

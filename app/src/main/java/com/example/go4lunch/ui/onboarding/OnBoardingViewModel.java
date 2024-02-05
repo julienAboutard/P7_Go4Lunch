@@ -27,20 +27,16 @@ public class OnBoardingViewModel extends ViewModel {
 
         LiveData<Boolean> hasGpsPermissionLiveData = hasGpsPermissionUseCase.invoke();
 
-        onBoardingViewActionMediatorLiveData.addSource(hasGpsPermissionLiveData, permission -> {
-                combine(
-                    permission,
-                    shouldShowRationaleMutableLiveData.getValue()
-                );
-            }
+        onBoardingViewActionMediatorLiveData.addSource(hasGpsPermissionLiveData, permission -> combine(
+            permission,
+            shouldShowRationaleMutableLiveData.getValue()
+        )
         );
 
-        onBoardingViewActionMediatorLiveData.addSource(shouldShowRationaleMutableLiveData, shouldShowRationale -> {
-                combine(
-                    hasGpsPermissionLiveData.getValue(),
-                    shouldShowRationale
-                );
-            }
+        onBoardingViewActionMediatorLiveData.addSource(shouldShowRationaleMutableLiveData, shouldShowRationale -> combine(
+            hasGpsPermissionLiveData.getValue(),
+            shouldShowRationale
+        )
         );
     }
 

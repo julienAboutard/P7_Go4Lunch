@@ -3,8 +3,6 @@ package com.example.go4lunch.domain.workmate;
 import static com.example.go4lunch.utils.TestUtils.getValueForTesting;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;

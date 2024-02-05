@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.databinding.RestaurantListFragmentBinding;
 import com.example.go4lunch.ui.restaurant.detail.RestaurantDetailsActivity;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -46,23 +45,14 @@ public class RestaurantListFragment extends Fragment {
     private void initRecyclerView() {
         RecyclerView recyclerView = binding.getRoot();
 
-        RestaurantListAdapter adapter = new RestaurantListAdapter(new OnRestaurantClickedListener() {
-            @Override
-            public void onRestaurantClicked(
-                @NonNull String restaurantId
-            ) {
-                startActivity(RestaurantDetailsActivity.navigate(requireContext(), restaurantId));
-            }
-        }
+        RestaurantListAdapter adapter = new RestaurantListAdapter(restaurantId -> startActivity(RestaurantDetailsActivity.navigate(requireContext(), restaurantId))
         );
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         viewModel.getRestaurants()
-            .observe(getViewLifecycleOwner(), list -> {
-                    adapter.submitList(list);
-                }
+            .observe(getViewLifecycleOwner(), adapter::submitList
             );
     }
 

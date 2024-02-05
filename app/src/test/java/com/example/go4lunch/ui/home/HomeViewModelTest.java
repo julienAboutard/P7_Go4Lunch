@@ -72,13 +72,13 @@ public class HomeViewModelTest {
     @Mock
     private GetUserEntityUseCase getUserEntityUseCase;
 
-    MutableLiveData<Boolean> isUserLoggedInMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isUserLoggedInMutableLiveData = new MutableLiveData<>();
 
-    MutableLiveData<Boolean> isGpsEnabledMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isGpsEnabledMutableLiveData = new MutableLiveData<>();
 
-    MutableLiveData<UserEntity> currentUserEntityMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<UserEntity> currentUserEntityMutableLiveData = new MutableLiveData<>();
 
-    MutableLiveData<UserWithRestaurantChoiceEntity> userWithRestaurantChoiceEntityMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<UserWithRestaurantChoiceEntity> userWithRestaurantChoiceEntityMutableLiveData = new MutableLiveData<>();
 
     private HomeViewModel homeViewModel;
 

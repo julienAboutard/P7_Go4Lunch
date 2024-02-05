@@ -2,8 +2,6 @@ package com.example.go4lunch.data.detailsretaurant;
 
 import static com.example.go4lunch.BuildConfig.API_KEY;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;

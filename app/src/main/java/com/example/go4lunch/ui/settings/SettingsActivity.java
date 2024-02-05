@@ -3,9 +3,7 @@ package com.example.go4lunch.ui.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,17 +41,12 @@ public class SettingsActivity extends AppCompatActivity {
         viewModel.isNotificationEnabled().observe(this, isEnabled -> {
                 binding.settingsNotificationSwitch.setChecked(isEnabled);
 
-                binding.settingsNotificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                        viewModel.toggleNotification();
-
-                    }
+                binding.settingsNotificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> viewModel.toggleNotification()
                 );
             }
         );
 
-        viewModel.getStartGpsSettingsIntentSingleLiveEvent().observe(this, aVoid -> {
-                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
+        viewModel.getStartGpsSettingsIntentSingleLiveEvent().observe(this, aVoid -> startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
         );
     }
 

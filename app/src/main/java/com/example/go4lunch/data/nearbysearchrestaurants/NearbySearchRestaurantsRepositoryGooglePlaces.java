@@ -3,7 +3,6 @@ package com.example.go4lunch.data.nearbysearchrestaurants;
 import static com.example.go4lunch.BuildConfig.API_KEY;
 
 import android.location.Location;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

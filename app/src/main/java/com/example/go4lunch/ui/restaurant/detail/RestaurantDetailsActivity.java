@@ -62,20 +62,14 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        WorkmateListAdapter adapter = new WorkmateListAdapter(new OnWorkmateClickedListener() {
-
-            @Override
-            public void onWorkmateClicked(@NonNull String restaurantId) {
-            }
+        WorkmateListAdapter adapter = new WorkmateListAdapter(restaurantId -> {
         }
         );
 
         binding.detailRestaurantWorkmatesList.setAdapter(adapter);
         binding.detailRestaurantWorkmatesList.setLayoutManager(new LinearLayoutManager(this));
 
-        viewModel.getWorkmatesGoingToRestaurant().observe(this, workmates -> {
-                adapter.submitList(workmates);
-            }
+        viewModel.getWorkmatesGoingToRestaurant().observe(this, adapter::submitList
         );
 
         viewModel.getWorkerState().observe(this, workerState -> {
@@ -149,14 +143,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                     }
 
                     if (restaurantDetailsFavoriteState == RestaurantDetailsFavoriteState.IS_FAVORITE) {
-                        binding.detailRestaurantLikeButton.setOnClickListener(v -> {
-                                viewModel.onRemoveFavoriteRestaurant();
-                            }
+                        binding.detailRestaurantLikeButton.setOnClickListener(v -> viewModel.onRemoveFavoriteRestaurant()
                         );
                     } else if (detail.getRestaurantFavoriteState() == RestaurantDetailsFavoriteState.IS_NOT_FAVORITE) {
-                        binding.detailRestaurantLikeButton.setOnClickListener(v -> {
-                                viewModel.onAddFavoriteRestaurant();
-                            }
+                        binding.detailRestaurantLikeButton.setOnClickListener(v -> viewModel.onAddFavoriteRestaurant()
                         );
                     }
 

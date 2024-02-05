@@ -1,15 +1,11 @@
 package com.example.go4lunch.ui.dispatcher;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.go4lunch.data.firebaseauth.AuthRepository;
 import com.example.go4lunch.domain.authentification.IsUserLoggedInLiveDataUseCase;
 import com.example.go4lunch.domain.location.StartLocationRequestUseCase;
 import com.example.go4lunch.domain.permission.HasGpsPermissionUseCase;
@@ -40,13 +36,9 @@ public class DispatcherViewModel extends ViewModel {
         LiveData<Boolean> permissionLiveData = hasGpsPermissionUseCase.invoke();
         LiveData<Boolean> isUserLoggedInLiveData = isUserLoggedInLiveDataUseCase.invoke();
 
-        destinationMutableLiveData.addSource(permissionLiveData, hasPermission -> {
-                combine(hasPermission, isUserLoggedInLiveData.getValue());
-            }
+        destinationMutableLiveData.addSource(permissionLiveData, hasPermission -> combine(hasPermission, isUserLoggedInLiveData.getValue())
         );
-        destinationMutableLiveData.addSource(isUserLoggedInLiveData, isUserLoggedIn -> {
-                combine(permissionLiveData.getValue(), isUserLoggedIn);
-            }
+        destinationMutableLiveData.addSource(isUserLoggedInLiveData, isUserLoggedIn -> combine(permissionLiveData.getValue(), isUserLoggedIn)
         );
     }
 

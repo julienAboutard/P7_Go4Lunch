@@ -3,10 +3,8 @@ package com.example.go4lunch.ui.signup;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import com.example.go4lunch.data.firebaseauth.AuthRepository;
 import com.example.go4lunch.domain.authentification.SignupUserUseCase;
 import com.example.go4lunch.domain.user.AddLoggedUserEntityUseCase;
-import com.example.go4lunch.ui.login.LoginViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
