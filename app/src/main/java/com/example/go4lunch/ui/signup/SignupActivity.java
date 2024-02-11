@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,8 @@ import com.example.go4lunch.databinding.SignupActivityBinding;
 import com.example.go4lunch.ui.dispatcher.DispatcherActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -88,6 +88,7 @@ public class SignupActivity extends AppCompatActivity {
                 viewModel.onNameChanged(editable.toString());
             }
         });
+
         binding.signupBtn.setOnClickListener(view -> {
             if (viewModel.getSignupMail() == null ||
                 viewModel.getSignupPassword() == null ||
@@ -97,9 +98,21 @@ public class SignupActivity extends AppCompatActivity {
             } else {
                 viewModel.onSignupButton().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        viewModel.onLoginComplete();
-                        startActivity(DispatcherActivity.navigate(SignupActivity.this));
-                        finish();
+                        FirebaseUser user = viewModel.getUser();
+                        UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(viewModel.getSignupName())
+                            .build();
+                        user.updateProfile(userProfileChangeRequest)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        viewModel.onLoginComplete();
+                                        startActivity(DispatcherActivity.navigate(SignupActivity.this));
+                                        finish();
+                                    }
+                                }
+                            });
                     } else {
                         Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

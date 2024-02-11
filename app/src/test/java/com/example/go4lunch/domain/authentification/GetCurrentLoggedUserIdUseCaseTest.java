@@ -1,6 +1,7 @@
 package com.example.go4lunch.domain.authentification;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -45,12 +46,16 @@ public class GetCurrentLoggedUserIdUseCaseTest {
         verifyNoMoreInteractions(authRepository);
     }
 
-    @Test(expected = IllegalStateException.class)
+    //@Test(expected = IllegalStateException.class)
+    @Test
     public void failure() {
         // Given
         doReturn(null).when(authRepository).getCurrentLoggedUserId();
 
         // When
-        getCurrentLoggedUserIdUseCase.invoke();
+        String result = getCurrentLoggedUserIdUseCase.invoke();
+
+        // Then
+        assertNull(result);
     }
 }

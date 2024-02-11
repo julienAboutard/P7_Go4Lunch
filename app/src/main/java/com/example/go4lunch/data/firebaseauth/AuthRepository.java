@@ -22,7 +22,7 @@ public interface AuthRepository {
 
     Task<AuthResult> logIn(String mail, String password);
 
-    Task<AuthResult> signUp(String mail, String password, String name);
+    Task<AuthResult> signUp(String mail, String password);
 
     void logOut();
 }

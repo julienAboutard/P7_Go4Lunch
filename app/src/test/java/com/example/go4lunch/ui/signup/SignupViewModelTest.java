@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.example.go4lunch.domain.authentification.SignupUserUseCase;
 import com.example.go4lunch.domain.user.AddLoggedUserEntityUseCase;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,11 +22,14 @@ public class SignupViewModelTest {
     @Mock
     private SignupUserUseCase signupUserUseCase;
 
+    @Mock
+    private FirebaseAuth firebaseAuth;
+
     private SignupViewModel signupViewModel;
 
     @Before
     public void setUp() {
-        signupViewModel = new SignupViewModel(signupUserUseCase, addLoggedUserEntityUseCase);
+        signupViewModel = new SignupViewModel(signupUserUseCase, addLoggedUserEntityUseCase, firebaseAuth);
     }
 
     @Test
@@ -49,6 +53,6 @@ public class SignupViewModelTest {
         signupViewModel.onSignupButton();
 
         //Then
-        verify(signupUserUseCase).invoke("test", "****", "tester");
+        verify(signupUserUseCase).invoke("test", "****");
     }
 }

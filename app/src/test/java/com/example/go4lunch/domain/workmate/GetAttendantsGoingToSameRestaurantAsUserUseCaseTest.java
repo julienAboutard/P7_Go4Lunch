@@ -69,7 +69,7 @@ public class GetAttendantsGoingToSameRestaurantAsUserUseCaseTest {
         Integer resultCount = result.get(TestValues.ATTENDING_RESTAURANT_ID);
         assertTrue(result.containsKey(TestValues.ATTENDING_RESTAURANT_ID));
         assert resultCount != null;
-        assertEquals(2, resultCount.intValue());
+        assertEquals(3, resultCount.intValue());
 
         verify(userRepository).getUsersWithRestaurantChoiceEntities();
         verify(getCurrentLoggedUserIdUseCase).invoke();

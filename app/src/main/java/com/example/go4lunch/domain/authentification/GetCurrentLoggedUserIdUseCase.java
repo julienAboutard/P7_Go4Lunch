@@ -1,6 +1,7 @@
 package com.example.go4lunch.domain.authentification;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.go4lunch.data.firebaseauth.AuthRepository;
 
@@ -18,7 +19,7 @@ public class GetCurrentLoggedUserIdUseCase {
         this.authRepository = authRepository;
     }
 
-    @NonNull
+    @Nullable
     public String invoke() {
         return authRepository.getCurrentLoggedUserId();
     }

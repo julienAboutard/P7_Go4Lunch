@@ -27,10 +27,10 @@ public class SignupUserUseCaseTest {
     @Test
     public void testInvoke() {
         //When
-        signupUserUseCase.invoke("test", "test", "test");
+        signupUserUseCase.invoke("test", "test");
 
         //Then
-        verify(authRepository).signUp("test", "test", "test");
+        verify(authRepository).signUp("test", "test");
         verifyNoMoreInteractions(authRepository);
     }
 }

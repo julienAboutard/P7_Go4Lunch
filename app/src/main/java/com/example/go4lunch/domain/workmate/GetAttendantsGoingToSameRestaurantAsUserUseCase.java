@@ -39,12 +39,19 @@ public class GetAttendantsGoingToSameRestaurantAsUserUseCase {
                 String currentUserId = getCurrentLoggedUserIdUseCase.invoke();
                 if (userWithRestaurantChoiceEntities != null) {
                     for (UserWithRestaurantChoiceEntity userWithRestaurantChoice : userWithRestaurantChoiceEntities) {
-                        if (!userWithRestaurantChoice.getId().equals(currentUserId)) {
+                        //if you don't want user to be counted in attendance
+                        /*if (!userWithRestaurantChoice.getId().equals(currentUserId)) {
                             String restaurantId = userWithRestaurantChoice.getAttendingRestaurantId();
                             Integer count = attendantsByRestaurantIdsMap.get(restaurantId);
                             int totalCount = count != null ? count : 0;
                             attendantsByRestaurantIdsMap.put(restaurantId, totalCount + 1);
-                        }
+                        }*/
+
+                        //if u want user to be counted in attendance
+                        String restaurantId = userWithRestaurantChoice.getAttendingRestaurantId();
+                        Integer count = attendantsByRestaurantIdsMap.get(restaurantId);
+                        int totalCount = count != null ? count : 0;
+                        attendantsByRestaurantIdsMap.put(restaurantId, totalCount + 1);
                     }
                 }
                 return attendantsByRestaurantIdsMap;

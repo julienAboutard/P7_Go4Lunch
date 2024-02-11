@@ -93,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
         HomeNavigationHeaderBinding navigationHeaderBinding = HomeNavigationHeaderBinding.bind(
             binding.homeNavigationView.getHeaderView(0)
         );
+
         viewModel.getUserInfoLiveData().observe(this, currentLoggedUser -> {
                 Glide.with(this)
                     .load(currentLoggedUser.getPictureUrl())

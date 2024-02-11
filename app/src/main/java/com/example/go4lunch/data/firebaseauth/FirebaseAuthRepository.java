@@ -3,12 +3,14 @@ package com.example.go4lunch.data.firebaseauth;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.data.firebaseauth.entity.LoggedUserEntity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -112,16 +114,8 @@ public class FirebaseAuthRepository implements AuthRepository {
     }
 
     @Override
-    public Task<AuthResult> signUp(String mail, String password, String name) {
-        return firebaseAuth.createUserWithEmailAndPassword(mail, password)
-            .addOnSuccessListener(authResult -> {
-                UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(name)
-                    .build();
-                if (authResult.getUser() != null) {
-                    authResult.getUser().updateProfile(userProfileChangeRequest);
-                }
-            });
+    public Task<AuthResult> signUp(String mail, String password) {
+        return firebaseAuth.createUserWithEmailAndPassword(mail, password);
     }
 
     @Override

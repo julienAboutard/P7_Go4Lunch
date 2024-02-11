@@ -1,6 +1,7 @@
 package com.example.go4lunch.data.notification;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -52,9 +53,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
             24,
             TimeUnit.HOURS)
             .addTag(NOTIFICATION_WORKER)
-            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            .setInitialDelay(10, TimeUnit.SECONDS)
             .build();
 
+        Log.d("control", "scheduleNotification: test "+workRequest);
         workManager
             .enqueueUniquePeriodicWork(
                 NOTIFICATION_WORKER,
