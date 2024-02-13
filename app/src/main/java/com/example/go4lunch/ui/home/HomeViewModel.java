@@ -19,6 +19,7 @@ import com.example.go4lunch.domain.autocomplete.SavePredictionPlaceIdUseCase;
 import com.example.go4lunch.domain.chosedrestaurant.GetUserWithRestaurantChoiceEntityLiveDataUseCase;
 import com.example.go4lunch.domain.gps.IsGpsEnabledUseCase;
 import com.example.go4lunch.domain.location.StartLocationRequestUseCase;
+import com.example.go4lunch.domain.notification.ScheduleWorkManagerForNotificationUseCase;
 import com.example.go4lunch.domain.user.GetUserEntityUseCase;
 import com.example.go4lunch.ui.home.searchview.PredictionViewState;
 import com.example.go4lunch.ui.utils.Event;

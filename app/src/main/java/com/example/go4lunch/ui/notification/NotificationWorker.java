@@ -58,9 +58,9 @@ public class NotificationWorker extends Worker {
     @Override
     public Result doWork() {
         DayOfWeek dayOfWeek = LocalDate.now(clock).getDayOfWeek();
-        /*if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+        if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
             return Result.success();
-        }*/
+        }
 
         NotificationEntity notificationEntity = getNotificationEntityUseCase.invoke();
         if (notificationEntity != null) {

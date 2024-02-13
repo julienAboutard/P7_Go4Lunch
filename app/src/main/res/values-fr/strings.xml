@@ -61,9 +61,9 @@
     <string name="settings_activity_gps_button">Paramètres du Gps</string>
     <string name="notification_content_title">C\'est l\'heure de Go4Lunch</string>
     <string name="notification_content_start">Vous</string>
-    <string name="notification_content_and">et</string>
-    <string name="notification_content_last_and">, et</string>
-    <string name="notification_content_going_to_eat_at">allez déjeuner à</string>
-    <string name="notification_content_located_at">situé au</string>
-    <string name="notification_content_solo_user">Vous allez déjeuner à</string>
+    <string name="notification_content_and">" et "</string>
+    <string name="notification_content_last_and">", et "</string>
+    <string name="notification_content_going_to_eat_at">" allez déjeuner à "</string>
+    <string name="notification_content_located_at">" situé au "</string>
+    <string name="notification_content_solo_user">"Vous allez déjeuner à "</string>
 </resources>

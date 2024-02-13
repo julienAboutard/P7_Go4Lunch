@@ -53,14 +53,13 @@ public class NotificationRepositoryImpl implements NotificationRepository {
             24,
             TimeUnit.HOURS)
             .addTag(NOTIFICATION_WORKER)
-            .setInitialDelay(10, TimeUnit.SECONDS)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .build();
 
-        Log.d("control", "scheduleNotification: test "+workRequest);
         workManager
             .enqueueUniquePeriodicWork(
                 NOTIFICATION_WORKER,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
                 workRequest
             );
     }

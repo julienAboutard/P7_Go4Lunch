@@ -30,6 +30,7 @@ public class MainApplication extends Application implements Application.Activity
 
     @Inject
     GpsPermissionRepositoryImpl gpsPermissionRepositoryImpl;
+
     @Inject
     GpsLocationRepositoryBroadcastReceiver gpsLocationRepositoryBroadcastReceiver;
 
